@@ -8,7 +8,7 @@ clear="The national weather service has no current alerts, watches, or warnings 
 alert="Updated weather information for "
 
 clearurl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
-alerturl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
+alerturl=$( printf "%s\n" "$url$alert$county_name" | sed 's/ /%20/g' )
 
 wget -U Mozilla -O "/tmp/clear.wav" $clearurl
 wget -U Mozilla -O "/tmp/alert.wav" $alerturl
