@@ -21,5 +21,7 @@ cp $SCRIPTPATH/AUTOSKY/SOUNDS/asn97.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn97.wav.old
 
 echo "Compiling audio files..."
 sox $SCRIPTPATH/AUTOSKY/SOUNDS/asn96Z-tweet.wav /tmp/clear.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn96Z.wav
+echo "asn96Z.wav saved to "$SCRIPTPATH"/AUTOSKY/SOUNDS/asn96Z.wav"
 sox $SCRIPTPATH/AUTOSKY/SOUNDS/asn97-tweet.wav /tmp/alert.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn97.wav
+echo "asn97.wav saved to "$SCRIPTPATH"/AUTOSKY/SOUNDS/asn97.wav"
 echo "Done."
