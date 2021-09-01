@@ -7,14 +7,14 @@ install_utils () {
     sudo chmod -R +x /home/repeater/WRKF394-utils/
 
     echo "Building audio files..."
-    /home/repeater/WRKF394-utils/build_audio.sh
+    sudo /home/repeater/WRKF394-utils/build_audio.sh
 
     echo "Building local node name file..."
-    wget -q -U Mozilla -O "/home/repeater/WRKF394/nodenames/"$node_number".wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$repeater_name
+    wget -q -U Mozilla -O "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$repeater_name
 
     echo "Moving node name files..."
     sudo rm -rf /var/lib/asterisk/sounds/rpt/nodenames
-    cp -avr /home/repeater/WRKF394-utils/nodenames /var/lib/asterisk/sounds/rpt/nodenames
+    sudo cp -avr /home/repeater/WRKF394-utils/nodenames /var/lib/asterisk/sounds/rpt/nodenames
 
     echo ""
     echo "Done. Hopefully nothing explodes :)"
