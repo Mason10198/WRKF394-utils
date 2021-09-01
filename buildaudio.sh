@@ -1,6 +1,10 @@
 #!/bin/bash
-. ./params.conf
-cd $(dirname "$0")/AUTOSKY/SOUNDS
+
+SCRIPT=$(readlink -f "$0") # Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPTPATH=$(dirname "$SCRIPT") # Absolute path this script is in, e.g. /home/user/bin
+
+. $SCRIPTPATH/params.conf
+
 url="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="
 
 clear="The national weather service has no current alerts, watches, or warnings for "
@@ -12,10 +16,10 @@ alerturl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
 wget -U Mozilla -O "/tmp/clear.wav" $clearurl
 wget -U Mozilla -O "/tmp/alert.wav" $alerturl
 
-cp $(dirname "$0")/asn96Z.wav $(dirname "$0")/asn96Z.wav.old
-cp $(dirname "$0")/asn97.wav $(dirname "$0")/asn97.wav.old
+cp $SCRIPTPATH/AUTOSKY/SOUNDS/asn96Z.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn96Z.wav.old
+cp $SCRIPTPATH/AUTOSKY/SOUNDS/asn97.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn97.wav.old
 
 echo "Compiling audio files..."
-sox $(dirname "$0")/asn96Z-tweet.wav /tmp/clear.wav $(dirname "$0")/asn96Z.wav
-sox $(dirname "$0")/asn97-tweet.wav /tmp/alert.wav $(dirname "$0")/asn97.wav
+sox $SCRIPTPATH/AUTOSKY/SOUNDS/asn96Z-tweet.wav /tmp/clear.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn96Z.wav
+sox $SCRIPTPATH/AUTOSKY/SOUNDS/asn97-tweet.wav /tmp/alert.wav $SCRIPTPATH/AUTOSKY/SOUNDS/asn97.wav
 echo "Done."
