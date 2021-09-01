@@ -10,17 +10,18 @@ install_utils () {
     /home/repeater/WRKF394-utils/build_audio.sh
 
     echo "Building local node name file..."
-    wget -q -U Mozilla -O "/home/repeater/WRKF394/nodenames/"$node_number "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$repeater_name
+    wget -q -U Mozilla -O "/home/repeater/WRKF394/nodenames/"$node_number".wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$repeater_name
 
     echo "Moving node name files..."
     sudo rm -rf /var/lib/asterisk/sounds/rpt/nodenames
-    cp /home/repeater/WRKF394-utils/nodenames /var/lib/asterisk/sounds/rpt/nodenames
+    cp -avr /home/repeater/WRKF394-utils/nodenames /var/lib/asterisk/sounds/rpt/nodenames
 
+    echo ""
     echo "Done. Hopefully nothing explodes :)"
 }
 
 while true; do
-    read -p "WARNING: You must FIRST configure the params.conf file for your system. Do you wish to continue? y/n - " yn
+    read -p "WARNING: You must FIRST configure params.conf for your system. Do you wish to continue? y/n - " yn
     case $yn in
         [Yy]* ) install_utils; break;;
         [Nn]* ) exit;;
