@@ -1,14 +1,6 @@
 #!/bin/bash
 
 . /home/repeater/WRKF394-utils/params.conf
-while true; do
-    read -p "WARNING: You must FIRST configure the params.conf file for your system. Do you wish to continue?" yn
-    case $yn in
-        [Yy]* ) install_utils; break;;
-        [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
 
 install_utils () {
     echo "Setting exec permissions..."
@@ -26,3 +18,12 @@ install_utils () {
 
     echo "Done. Hopefully nothing explodes :)"
 }
+
+while true; do
+    read -p "WARNING: You must FIRST configure the params.conf file for your system. Do you wish to continue? y/n - " yn
+    case $yn in
+        [Yy]* ) install_utils; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
