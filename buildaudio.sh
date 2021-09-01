@@ -1,5 +1,11 @@
 #!/bin/bash
-. ./params.conf
+
+# Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+. /home/repeater/WRKF394-utils/params.conf
 
 url="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="
 
