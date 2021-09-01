@@ -1,7 +1,9 @@
 #!/bin/bash
 
 SCRIPT=$(readlink -f "$0") # Absolute path to this script, e.g. /home/user/bin/foo.sh
+echo "SCRIPT= "$SCRIPT
 SCRIPTPATH=$(dirname "$SCRIPT") # Absolute path this script is in, e.g. /home/user/bin
+echo "SCRIPTPATH= "$SCRIPTPATH
 
 . $SCRIPTPATH/params.conf
 
