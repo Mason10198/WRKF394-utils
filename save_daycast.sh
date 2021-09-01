@@ -131,7 +131,8 @@ sed -i ':a;N;$!ba;s/\n/ /g' $WX_file
 #sed -i "s/.*Saline- //g" $WX_file
 
 # add new header
-sed -i '1s/^/The following message contains todays weather forcast for '$county_name'. /' $WX_file
+txt="The following message contains todays weather forcast for "$county_name" ."
+sed -i "1s/^/$txt/" $WX_file
 
 sed -i 's/SUNDAY.*//' $WX_file
 sed -i 's/MONDAY.*//' $WX_file
