@@ -46,16 +46,45 @@ return($data['info']['description']);
 // } //EndFunction.
 
 function getCountyCode(){
-$autosky_ini=file_get_contents('/usr/local/AUTOSKY/autoskywarn.conf'); //Get autosky settings.
-// $split=strstr($autosky_ini,"(ARKANSAS)");
-$data=strstr($autosky_ini,"OFILE=");
-$array=explode("\n",$data);
-$url=trim($array[0]);
-$parse=strstr($url,"?x=");
-$parse_array=explode("&",$parse);
-$code_array=explode("=",$parse_array[0]);
-$code=trim($code_array[1]);
-return($code);
+    $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
+    $search_string = "county_code";
+    
+    foreach($lines_array as $line) {
+        if(strpos($line, $search_string) !== false) {
+            list(, $new_str) = explode(":", $line);
+            str_replace('"', "", $new_str);
+            $new_str = trim($new_str);
+        }
+    }
+    return($new_str);
+} //EndFunction.
+
+function getNodeNumber(){
+    $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
+    $search_string = "node_number";
+    
+    foreach($lines_array as $line) {
+        if(strpos($line, $search_string) !== false) {
+            list(, $new_str) = explode(":", $line);
+            str_replace('"', "", $new_str);
+            $new_str = trim($new_str);
+        }
+    }
+    return($new_str);
+} //EndFunction.
+
+function getAPIKey(){
+    $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
+    $search_string = "voicerss_key";
+    
+    foreach($lines_array as $line) {
+        if(strpos($line, $search_string) !== false) {
+            list(, $new_str) = explode(":", $line);
+            str_replace('"', "", $new_str);
+            $new_str = trim($new_str);
+        }
+    }
+    return($new_str);
 } //EndFunction.
 
 function sendDebugLog($logData){
@@ -83,7 +112,7 @@ return($result);
 } //EndFunction.
 
 //$node=getNodeNumber(); // Get the default node number from asterisk.
-$node=1998;
+$node=getNodeNumber();
 $cc=getCountyCode(); // get the NWS county code from AutoSky.
 //$cc='ARC125';
 //$cc='NVC007';
@@ -132,9 +161,10 @@ if(is_file("/tmp/alert.ul")){
 shell_exec("rm -f /tmp/alert.ul");
 } //EndIf.
 
-shell_exec("/home/repeater/fixwxalert2.sh");
+//shell_exec("/home/repeater/fixwxalert2.sh");
 $text=file_get_contents("/tmp/alert.txt");
-$tts=shell_exec('wget -q -U Mozilla -O "/tmp/alert.wav" "https://api.voicerss.org/?key=b48acdb943e446c8b67dec46fb24f51e&hl=en-us&src='.$text.'"');
+$apikey=getAPIKey();
+$tts=shell_exec('wget -q -U Mozilla -O "/tmp/alert.wav" "https://api.voicerss.org/?key='.$apikey.'&hl=en-us&src='.$text.'"');
 $convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 //$tts=shell_exec("pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alerttest.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 //echo "pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul";
@@ -142,7 +172,7 @@ $convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 
 //$asterisk=shell_exec("cp /tmp/alert.wav /home/repeater/alert.wav");
 
-$asterisk=shell_exec('asterisk -rx "rpt localplay 1998 /tmp/alert"');
+$asterisk=shell_exec('asterisk -rx "rpt localplay '.$node.' /tmp/alert"');
 
 //$asterisk=shell_exec('asterisk -rx "rpt playback 1998 /tmp/alert"');
 

@@ -63,7 +63,7 @@ my $outdir = "/tmp";
 #
 my $ampm = "PM";
 # my $base = "/var/lib/asterisk/sounds";
-my $base = "/home/repeater/sounds-gsm";
+my $base = "/home/repeater/WRKF394-utils/sounds-gsm";
 my $FNAME,my $error,my $day,my $hour,my $min,my $mynode,my $wx,my $wxid;
 my @proglist,my @list,my $sec,my $wday,my $mon,my $year,my $greet;
 my $year_1900,my $isdst,my $yday,my $min1,my $min10,my $localwxtemp10,my $localwxtemp1;
@@ -135,19 +135,19 @@ if ( <$filename.*> ) {
 @list = ($sec,$min,$hour,$day,$mon,$year_1900,$wday,$yday,$isdst)=localtime;
 #
 if ($Silent != "2") {
-#
+
 if ($hour < 12) { 
-  $greet = "Good Morning"; 
-  $ampm = "AM";
-  $FNAME = $base . "/good-morning.gsm ";
- }
+ #$greet = "Good Morning"; 
+ $ampm = "AM";
+ #$FNAME = $base . "/good-morning.gsm ";
+}
 elsif ($hour >= 12 && $hour < 18) { 
-  $greet = "Good Afternoon";
-  $FNAME = $base . "/good-afternoon.gsm ";
- }
+ #$greet = "Good Afternoon";
+ #$FNAME = $base . "/good-afternoon.gsm ";
+}
 else { 
-  $greet = "Good Evening";
-  $FNAME = $base . "/good-evening.gsm ";
+ #$greet = "Good Evening";
+ #$FNAME = $base . "/good-evening.gsm ";
 }
 
 if ($hour > 12) { $hour = $hour-12 };
