@@ -25,3 +25,4 @@ install_utils () {
     cp /home/repeater/WRKF394-utils/nodenames /var/lib/asterisk/sounds/rpt/nodenames
 
     echo "Done. Hopefully nothing explodes :)"
+}
