@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+##################################################################
+# filename:     KF5VH-Send-RPT-Command
+#
+# description:  Type a RPT FUN NODE Cmd from Shell Prompt
+#
+# 10/16/2016    Version 1.0 SJM - KF5VH initial attempt
+# 10/17/2016    Version 1.1 SJM - KF5VH added "auto-STAR"
+#
+##################################################################
+#
+
+# set -x
+
+# OBTAIN AUTOSKYWARN SHELL VARIABLES
+source /usr/local/AUTOSKY/autoskywarn.conf
+
+# The following is needed to easily allow "*" non-processing
+# on the command line
+set -o noglob
+
+WORK=/tmp
+
+cd $WORK
+
+if [ $# -ne 1 ]; then
+  /bin/echo "Usage: rpt DTMF-command-to-execute"
+  exit 0
+fi
+
+CMD="$1"
+FC="${CMD:0:1}"
+FIXED=$CMD
+STAR="*"
+# echo Entire ... "$CMD"
+# echo Cut ...... "$FC"
+# echo Fixed .... "$FIXED"
+# echo Star ..... "$STAR"
+
+if [ $FC !=  $STAR ]; then
+  FIXED=$STAR$CMD
+fi
+
+# echo Fixed .... "$FIXED"
+
+/usr/sbin/asterisk -rx "rpt fun $NODE $FIXED " 2>>/dev/null
+
+exit 0
+

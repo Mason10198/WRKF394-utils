@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+##################################################################
+# KF5VH - IS THE DEFAULT NETWORK CONNECTED
+#       - return value 0=YES or 1=NO
+##################################################################
+#
+# set -x
+#
+# OBTAIN STANDARD AUTOSKYWARN VARIABLES
+# - just to get the node number and basedir
+source /usr/local/AUTOSKY/autoskywarn.conf
+
+WORK=${BASEDIR}
+
+DNCTMPFILE1=$WORK/dnctmp1
+DNCTMPFILE2=$WORK/dnctmp2
+DEFAULTNETWORKNODE=27404
+
+cd $WORK
+
+$RM -f $DNCTMPFILE1 $DNCTMPFILE2
+
+/usr/sbin/asterisk -rx "rpt lstats $NODE "  > $DNCTMPFILE1  2>>/dev/null
+
+grep ${DEFAULTNETWORKNODE}  $DNCTMPFILE1  > $DNCTMPFILE2
+
+# Set Exit Code based on grep results
+# 0 - found one,  DEFAULT NETWORK IS     CONNECTED
+# 1 - found none, DEFAULT NETWORK IS NOT CONNECTED
+# 2 - grep failure
+
+exit $?
+
+exit 3
+

@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# Turn Off INFORMATIVE EMPTY MESSAGE
+#
+#
+# SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
+source /usr/local/AUTOSKY/autoskywarn.conf
+#
+
+WX=${BASEDIR}
+
+ENABLEFILE=alert.enbl.informe
+
+cd $WX ;
+
+# REMOVE THE ENABLE FILE
+$RM -f $ENABLEFILE
+
+# CONFIRM THE ACTION
+if [ "$1" != "quiet" ] ; then
+	$TALKIT  Auto-SkyWarn Empty Informative Message Disabled
+fi
