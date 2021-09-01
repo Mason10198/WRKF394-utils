@@ -1,8 +1,9 @@
 #!/bin/bash
 . ./params.conf
+cd $(pwd)/AUTOSKY/SOUNDS
 url="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="
 
-clear="The national weather sevice has no current alerts, watches, or warning for "
+clear="The national weather sevice has no current alerts, watches, or warnings for "
 alert="Updated weather information for "
 
 clearurl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
@@ -11,11 +12,15 @@ alerturl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
 wget -U Mozilla -O "/tmp/clear.wav" $clearurl
 wget -U Mozilla -O "/tmp/alert.wav" $alerturl
 
-rm ./AUTOSKY/SOUNDS/asn96Z.wav.old
-rm ./AUTOSKY/SOUNDS/asn97.wav.old
-
-mv ./AUTOSKY/SOUNDS/asn96Z.wav ./AUTOSKY/SOUNDS/asn96Z.wav.old
-mv ./AUTOSKY/SOUNDS/asn97.wav ./AUTOSKY/SOUNDS/asn97.wav.old
-
-sox ./AUTOSKY/SOUNDS/asn96Z.wav /tmp/clear.wav ./AUTOSKY/SOUNDS/asn96Z.wav
-sox ./AUTOSKY/SOUNDS/asn97.wav /tmp/alert.wav ./AUTOSKY/SOUNDS/asn97.wav
+if test -f "as96Z.wav"; then
+    mv asn96Z.wav asn96Z.wav.old
+    sox asn96Z-tweet.wav /tmp/clear.wav asn96Z.wav
+else
+    echo "asn96Z.wav not detected!"
+fi
+if test -f "as97.wav"; then
+    mv asn97.wav asn97.wav.old
+    sox asn97-tweet.wav /tmp/alert.wav asn97.wav
+else
+    echo "asn97.wav not detected!"
+fi
