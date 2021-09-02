@@ -151,6 +151,7 @@ echo -e "Converting text to speech\n"
 #tts_audio.sh $WX_file
 #pico2wave -w /tmp/Saline.wav "$(cat $WX_file)"
 url2="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$(cat /tmp/daycast.txt)
+url2=$( printf "%s\n" "$url2" | sed 's/ /%20/g' )
 echo "URL = "$url2
 wget -U Mozilla -O "/tmp/daycast.wav" $url2
 
