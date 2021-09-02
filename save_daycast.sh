@@ -133,7 +133,7 @@ sed -i ':a;N;$!ba;s/\n/ /g' $WX_file
 #sed -i "s/.*Saline- //g" $WX_file
 
 # add new header
-txt="The following message contains todays weather forcast for "$county_name" ."
+txt="The following message contains todays weather forcast for "$county_name". "
 sed -i "1s/^/$txt/" $WX_file
 
 sed -i 's/SUNDAY.*//' $WX_file
@@ -150,7 +150,9 @@ echo -e "Converting text to speech\n"
 
 #tts_audio.sh $WX_file
 #pico2wave -w /tmp/Saline.wav "$(cat $WX_file)"
-wget -q -U Mozilla -O "/tmp/daycast.wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src=$(cat /tmp/daycast.txt)"
+url2="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$(cat /tmp/daycast.txt)
+echo "URL = "$url2
+wget -q -U Mozilla -O "/tmp/daycast.wav" \"$url2\"
 
 # echo -e "TTS Complete - $(echo "$WX_file" | rev | cut -f 2- -d '.' | rev).ul Saved\n"
 echo -e "TTS complete."
