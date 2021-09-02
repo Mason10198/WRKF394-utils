@@ -51,7 +51,7 @@ function getCountyCode(){
     
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
-            list(, $new_str) = explode(":", $line);
+            list(, $new_str) = explode("=", $line);
             str_replace('"', "", $new_str);
             $new_str = trim($new_str);
         }
@@ -65,7 +65,7 @@ function getNodeNumber(){
     
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
-            list(, $new_str) = explode(":", $line);
+            list(, $new_str) = explode("=", $line);
             str_replace('"', "", $new_str);
             $new_str = trim($new_str);
         }
@@ -79,7 +79,7 @@ function getAPIKey(){
     
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
-            list(, $new_str) = explode(":", $line);
+            list(, $new_str) = explode("=", $line);
             str_replace('"', "", $new_str);
             $new_str = trim($new_str);
         }
@@ -165,8 +165,8 @@ shell_exec("rm -f /tmp/alert.ul");
 $text=file_get_contents("/tmp/alert.txt");
 $apikey=getAPIKey();
 $text2=str_replace(' ', '%20', $text);
-$url="https://api.voicerss.org/?key=".$apikey."&hl=en-us&src=".$text2
-$ttscommand="wget -q -U Mozilla -O \"/tmp/alert.wav\" ".$url
+$url="https://api.voicerss.org/?key=".$apikey."&hl=en-us&src=".$text2;
+$ttscommand="wget -q -U Mozilla -O \"/tmp/alert.wav\" ".$url;
 $tts=shell_exec($ttscommand);
 $convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 //$tts=shell_exec("pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alerttest.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
@@ -175,7 +175,7 @@ $convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 
 //$asterisk=shell_exec("cp /tmp/alert.wav /home/repeater/alert.wav");
 
-$asterisk=shell_exec('asterisk -rx "rpt localplay '.$node.' /tmp/alert"');
+$asterisk=shell_exec('sudo asterisk -rx "rpt localplay '.$node.' /tmp/alert"');
 
 //$asterisk=shell_exec('asterisk -rx "rpt playback 1998 /tmp/alert"');
 
