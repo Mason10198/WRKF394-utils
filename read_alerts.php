@@ -52,7 +52,7 @@ function getCountyCode(){
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
             list(, $new_str) = explode("=", $line);
-            str_replace('"', "", $new_str);
+            $new_str=str_replace('"', "", $new_str);
             $new_str = trim($new_str);
         }
     }
@@ -66,7 +66,7 @@ function getNodeNumber(){
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
             list(, $new_str) = explode("=", $line);
-            str_replace('"', "", $new_str);
+            $new_str=str_replace('"', "", $new_str);
             $new_str = trim($new_str);
         }
     }
@@ -80,7 +80,7 @@ function getAPIKey(){
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
             list(, $new_str) = explode("=", $line);
-            str_replace('"', "", $new_str);
+            $new_str=str_replace('"', "", $new_str);
             $new_str = trim($new_str);
         }
     }
