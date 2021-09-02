@@ -66,7 +66,7 @@ echo -e "\nDownloading Weather Data\n"
 #Get the weather data
 url=$(echo "https://tgftp.nws.noaa.gov/data/forecasts/zone/"$state_code"/"$zone_code".txt" | sed -e 's/\(.*\)/\L\1/')
 echo "URL = "$url
-wget -q \"$url\" --no-check-certificate -O $WX_file
+wget \"$url\" --no-check-certificate -O $WX_file
 
 diff $WX_file /tmp/WX_prior.txt > /dev/null 2>&1
 
@@ -150,9 +150,9 @@ echo -e "Converting text to speech\n"
 
 #tts_audio.sh $WX_file
 #pico2wave -w /tmp/Saline.wav "$(cat $WX_file)"
-url2=$(echo "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$(cat /tmp/daycast.txt) | sed -e 's/\(.*\)/\L\1/')
+url2="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$(cat /tmp/daycast.txt)
 echo "URL = "$url2
-wget -q -U Mozilla -O "/tmp/daycast.wav" \"$url2\"
+wget -U Mozilla -O "/tmp/daycast.wav" \"$url2\"
 
 # echo -e "TTS Complete - $(echo "$WX_file" | rev | cut -f 2- -d '.' | rev).ul Saved\n"
 echo -e "TTS complete."
