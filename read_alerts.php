@@ -165,6 +165,7 @@ shell_exec("rm -f /tmp/alert.ul");
 $text=file_get_contents("/tmp/alert.txt");
 $apikey=getAPIKey();
 $text2=str_replace(' ', '%20', $text);
+echo "text = " . $text2;
 $url="https://api.voicerss.org/?key=".$apikey;
 $url2="&hl=en-us&src=".$text2;
 $url3=$url.$url2;
