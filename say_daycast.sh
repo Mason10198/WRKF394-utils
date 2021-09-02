@@ -59,12 +59,14 @@ WeatherLocation=$wx_location
 # more permanent file to where you want to play it from.
 # /tmp files go away at boot.
 
-WX_file="/tmp/forecast.txt"
+WX_file="/tmp/daycast.txt"
 
 echo -e "\nDownloading Weather Data\n"
 
 #Get the weather data
-wget -q "https://tgftp.nws.noaa.gov/data/forecasts/zone/"$state_code"/"$zone_code".txt" --no-check-certificate -O $WX_file
+url=$(echo "https://tgftp.nws.noaa.gov/data/forecasts/zone/"$state_code"/"$zone_code".txt" | sed -e 's/\(.*\)/\L\1/')
+echo "URL = "$url
+wget $url --no-check-certificate -O $WX_file
 
 diff $WX_file /tmp/WX_prior.txt > /dev/null 2>&1
 
@@ -131,7 +133,8 @@ sed -i ':a;N;$!ba;s/\n/ /g' $WX_file
 #sed -i "s/.*Saline- //g" $WX_file
 
 # add new header
-sed -i '1s/^/The following message contains todays weather forcast for '$county_name'. /' $WX_file
+txt="The following message contains todays weather forcast for "$county_name". "
+sed -i "1s/^/$txt/" $WX_file
 
 sed -i 's/SUNDAY.*//' $WX_file
 sed -i 's/MONDAY.*//' $WX_file
@@ -147,7 +150,10 @@ echo -e "Converting text to speech\n"
 
 #tts_audio.sh $WX_file
 #pico2wave -w /tmp/Saline.wav "$(cat $WX_file)"
-wget -q -U Mozilla -O "/tmp/daycast.wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src=$(cat /tmp/daycast.txt)"
+url2="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$(cat /tmp/daycast.txt)
+url2=$( printf "%s\n" "$url2" | sed 's/ /%20/g' )
+echo "URL = "$url2
+wget -U Mozilla -O "/tmp/daycast.wav" $url2
 
 # echo -e "TTS Complete - $(echo "$WX_file" | rev | cut -f 2- -d '.' | rev).ul Saved\n"
 echo -e "TTS complete."
@@ -155,7 +161,8 @@ sleep 2
 
 sox -V /tmp/daycast.wav -r 8000 -c 1 -t ul /tmp/daycast.ul
 
-/usr/sbin/asterisk -rx "rpt localplay "$node_number" /tmp/daycast" 
+astcmd="rpt localplay "$node_number" /tmp/daycast"
+/usr/sbin/asterisk -rx $astcmd 
 #/usr/sbin/asterisk -rx "rpt playback 1998 /tmp/Saline"
 
 # END of Script
