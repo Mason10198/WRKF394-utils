@@ -64,7 +64,9 @@ WX_file="/tmp/forecast.txt"
 echo -e "\nDownloading Weather Data\n"
 
 #Get the weather data
-wget -q "https://tgftp.nws.noaa.gov/data/forecasts/zone/"$state_code"/"$zone_code".txt" --no-check-certificate -O $WX_file
+url="https://tgftp.nws.noaa.gov/data/forecasts/zone/"$state_code"/"$zone_code".txt"
+echo "URL = "$url
+wget -q \"$url\" --no-check-certificate -O $WX_file
 
 diff $WX_file /tmp/WX_prior.txt > /dev/null 2>&1
 
