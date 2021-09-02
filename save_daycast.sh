@@ -59,7 +59,7 @@ WeatherLocation=$wx_location
 # more permanent file to where you want to play it from.
 # /tmp files go away at boot.
 
-WX_file="/tmp/forecast.txt"
+WX_file="/tmp/daycast.txt"
 
 echo -e "\nDownloading Weather Data\n"
 
