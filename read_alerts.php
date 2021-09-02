@@ -164,7 +164,8 @@ shell_exec("rm -f /tmp/alert.ul");
 //shell_exec("/home/repeater/fixwxalert2.sh");
 $text=file_get_contents("/tmp/alert.txt");
 $apikey=getAPIKey();
-$url='https://api.voicerss.org/?key='.$apikey.'&hl=en-us&src='.$text
+$text2=str_replace(' ', '%20', $text);
+$url="https://api.voicerss.org/?key=".$apikey."&hl=en-us&src=".$text2
 $ttscommand="wget -q -U Mozilla -O \"/tmp/alert.wav\" ".$url
 $tts=shell_exec($ttscommand);
 $convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
