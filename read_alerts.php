@@ -165,7 +165,8 @@ shell_exec("rm -f /tmp/alert.ul");
 $text=file_get_contents("/tmp/alert.txt");
 $apikey=getAPIKey();
 $url='https://api.voicerss.org/?key='.$apikey.'&hl=en-us&src='.$text
-$tts=shell_exec('wget -q -U Mozilla -O "/tmp/alert.wav" '.$url);
+$ttscommand="wget -q -U Mozilla -O \"/tmp/alert.wav\" ".$url
+$tts=shell_exec($ttscommand);
 $convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 //$tts=shell_exec("pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alerttest.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 //echo "pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul";
