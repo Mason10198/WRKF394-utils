@@ -59,6 +59,20 @@ function getCountyCode(){
     return($new_str);
 } //EndFunction.
 
+function getCountyName(){
+    $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
+    $search_string = "county_name";
+    
+    foreach($lines_array as $line) {
+        if(strpos($line, $search_string) !== false) {
+            list(, $new_str) = explode("=", $line);
+            $new_str=str_replace('"', "", $new_str);
+            $new_str = trim($new_str);
+        }
+    }
+    return($new_str);
+} //EndFunction.
+
 function getNodeNumber(){
     $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
     $search_string = "node_number";
@@ -162,8 +176,9 @@ shell_exec("rm -f /tmp/alert.ul");
 } //EndIf.
 
 //shell_exec("/home/repeater/fixwxalert2.sh");
+$county=getCountyName();
 
-$message="The following message contains current weather alerts for ".$county_name.".";
+$message="The following message contains current weather alerts for ".$county.".";
 
 
 $apikey=getAPIKey();
