@@ -162,16 +162,22 @@ shell_exec("rm -f /tmp/alert.ul");
 } //EndIf.
 
 //shell_exec("/home/repeater/fixwxalert2.sh");
-$text=file_get_contents("/tmp/alert.txt");
+
+
+
 $apikey=getAPIKey();
-$text2=str_replace(' ', '%20', $text);
-echo "text = " . $text2;
-$url="https://api.voicerss.org/?key=".$apikey;
-$url2="&hl=en-us&src=".$text2;
-$url3=$url.$url2;
-$ttscommand="wget -U Mozilla -O \"/tmp/alert.wav\" ".$url3;
-$tts=shell_exec($ttscommand);
-$convert=shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
+$text=file_get_contents("/tmp/alert.txt");
+$text=rawurlencode($text);
+$url="https://api.voicerss.org/?key=".$apikey."&hl=en-us&src=".$text;
+
+//$tts=shell_exec("wget -U Mozilla -O \"/tmp/alert.wav\" ".$url);
+$tts=shell_exec('wget -q -U Mozilla -O "/tmp/alert.wav" "https://api.voicerss.org/?key='.$apikey.'&hl=en-us&src='.$text.'"');
+
+shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
+
+
+
+
 //$tts=shell_exec("pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alerttest.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 //echo "pico2wave -w /tmp/alert.wav \"".$text."\" && sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul";
 
