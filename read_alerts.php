@@ -163,10 +163,12 @@ shell_exec("rm -f /tmp/alert.ul");
 
 //shell_exec("/home/repeater/fixwxalert2.sh");
 
+$message="The following message contains current weather alerts for ".$county_name.".";
 
 
 $apikey=getAPIKey();
-$text=file_get_contents("/tmp/alert.txt");
+$file_contents=file_get_contents("/tmp/alert.txt");
+$text=$message.$file_contents;
 $text=rawurlencode($text);
 $url="https://api.voicerss.org/?key=".$apikey."&hl=en-us&src=".$text;
 
