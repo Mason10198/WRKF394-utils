@@ -45,9 +45,9 @@ return($data['info']['description']);
 // return($oNode);
 // } //EndFunction.
 
-function getCountyCode(){
+function getCountyName(){
     $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
-    $search_string = "county_code";
+    $search_string = "county_name";
     
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
@@ -59,9 +59,9 @@ function getCountyCode(){
     return($new_str);
 } //EndFunction.
 
-function getCountyName(){
+function getCountyCode(){
     $lines_array = file("/home/repeater/WRKF394-utils/params.conf");
-    $search_string = "county_name";
+    $search_string = "county_code";
     
     foreach($lines_array as $line) {
         if(strpos($line, $search_string) !== false) {
