@@ -53,7 +53,7 @@ function getCountyName(){
         if(strpos($line, $search_string) !== false) {
             list(, $new_str) = explode("=", $line);
             $new_str=str_replace('"', "", $new_str);
-            $new_str = trim($new_str);
+            //$new_str = trim($new_str);
         }
     }
     return($new_str);
@@ -178,7 +178,7 @@ shell_exec("rm -f /tmp/alert.ul");
 //shell_exec("/home/repeater/fixwxalert2.sh");
 $county=getCountyName();
 
-$message="The following message contains current weather alerts for ".$county.".";
+$message="The following message contains current weather alerts for ".$county.". ";
 
 
 $apikey=getAPIKey();
