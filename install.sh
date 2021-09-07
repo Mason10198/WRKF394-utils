@@ -27,6 +27,8 @@ install_utils () {
     
     echo "Building local node name file..."
     wget -q -U Mozilla -O "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$repeater_name
+    sox -V "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav" -r 8000 -c 1 -t ul "/home/repeater/WRKF394-utils/nodenames/"$node_number".ul"
+    rm "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav"
 
     echo "Moving node name files..."
     sudo rm -rf /var/lib/asterisk/sounds/rpt/nodenames
