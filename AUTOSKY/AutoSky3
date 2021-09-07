@@ -4,7 +4,7 @@
 # echo This is AutoSky3 - Author Steve Mahler - KF5VH - GO BOILERS!!
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
-source /usr/local/AUTOSKY/autoskywarn.conf
+source /home/repeater/WRKF394-utils/AUTOSKY/autoskywarn.conf
 
 # INTERFACE WITH  MID-JB-PRI  TO DUMP SKYWARN REPEATER ID
 MIDD=/usr/local/MID
