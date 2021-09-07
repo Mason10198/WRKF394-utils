@@ -36,6 +36,7 @@ install_utils () {
 
     echo ""
     echo "Done. Hopefully nothing explodes :)"
+    echo ""
 }
 
 while true; do
