@@ -201,7 +201,7 @@ shell_exec("sox -V /tmp/alert.wav -r 8000 -c 1 -t ul /tmp/alert.ul");
 
 //$asterisk=shell_exec("cp /tmp/alert.wav /home/repeater/alert.wav");
 
-$asterisk=shell_exec('sudo asterisk -rx "rpt localplay '.$node.' /tmp/alert"');
+$asterisk=shell_exec('/usr/sbin/asterisk -rx "rpt localplay '.$node.' /tmp/alert"');
 
 //$asterisk=shell_exec('asterisk -rx "rpt playback 1998 /tmp/alert"');
 
