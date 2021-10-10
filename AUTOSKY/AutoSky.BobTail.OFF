@@ -3,7 +3,7 @@
 # Turn Off BOB TAILING OF WX-TAIL MESSAGES
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
-source /usr/local/AUTOSKY/autoskywarn.conf
+source /home/repeater/WRKF394-utils/AUTOSKY/autoskywarn.conf
 #
 
 WX=${BASEDIR}

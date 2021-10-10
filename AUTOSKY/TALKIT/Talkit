@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Source Some Info
-source /usr/local/AUTOSKY/autoskywarn.conf
+source /home/repeater/WRKF394-utils/AUTOSKY/autoskywarn.conf
 
 # Where the text will live
 NFILE="${BASEDIR}/TALKIT/talkit.txt"
