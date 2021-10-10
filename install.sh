@@ -51,6 +51,6 @@ while true; do
     case $yn in
         [Yy]* ) install_utils; break;;
         [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
+        * ) echo "Please answer '"'y'"' or '"'n'"'.";;
     esac
 done
