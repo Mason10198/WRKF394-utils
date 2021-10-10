@@ -26,7 +26,7 @@ install_utils () {
     sox $base_dir/AUTOSKY/SOUNDS/asn97-tweet.wav /tmp/alert.wav $base_dir/AUTOSKY/SOUNDS/asn97.wav
     
     echo "Building local node name file..."
-    wget -q -U Mozilla -O "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$repeater_name
+    wget -U Mozilla -O "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav" "https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="$( printf "%s\n" "$repeater_name" | sed 's/ /%20/g' )
     sox -V "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav" -r 8000 -c 1 -t ul "/home/repeater/WRKF394-utils/nodenames/"$node_number".ul"
     rm "/home/repeater/WRKF394-utils/nodenames/"$node_number".wav"
 
