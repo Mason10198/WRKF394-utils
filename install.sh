@@ -34,6 +34,13 @@ install_utils () {
     sudo rm -rf /var/lib/asterisk/sounds/rpt/nodenames
     sudo cp -avr /home/repeater/WRKF394-utils/nodenames /var/lib/asterisk/sounds/rpt/nodenames
 
+    echo "Moving privatenodes.txt..."
+    sudo cp /home/repeater/WRKF394-utils/privatenodes.txt /var/www/html/allmon2/privatenodes.txt
+
+    echo "Updating node info via astdb.php..."
+    sudo chmod +x /var/www/html/allmon2/astdb.php
+    sudo /var/www/html/allmon2/astdb.php
+
     echo ""
     echo "Done. Hopefully nothing explodes :)"
     echo ""

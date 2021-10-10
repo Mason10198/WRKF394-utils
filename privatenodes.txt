@@ -1,0 +1,8 @@
+NODE|CALL|INFO|LOCATION
+1000|WRKF394|Master Hub|Arkansas
+1001|WRKF394|Central Hub|Little Rock, AR
+1002|WRBK701|Southwest Hub|Mena, AR
+1100|WRKF394|Paron 575|Paron, AR
+1101|WRNQ540|Petit Jean 725|Morrilton, AR
+1102|WRBK701|Mena 675|Mena, AR
+1103|WRBK701|Hatfield 650|Hatfield, AR
