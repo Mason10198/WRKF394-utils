@@ -4,4 +4,4 @@
 /home/repeater/WRKF394-utils/save_daycast.sh -f
 sox -V /tmp/current-time.gsm -r 8000 -c 1 -t ul /tmp/currenttime.ul
 sox /tmp/currenttime.ul /home/repeater/WRKF394-utils/silence.ul /tmp/daycast.ul /tmp/combined_time_forecast.ul
-/usr/sbin/asterisk -rx '"rpt localplay '$node_number' /tmp/combined_time_forecast"'
+/usr/sbin/asterisk -rx "rpt localplay "$node_number" /tmp/combined_time_forecast"
