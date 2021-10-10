@@ -161,8 +161,7 @@ sleep 2
 
 sox -V /tmp/daycast.wav -r 8000 -c 1 -t ul /tmp/daycast.ul
 
-astcmd="rpt localplay "$node_number" /tmp/daycast"
-/usr/sbin/asterisk -rx \"$astcmd\"
+/usr/sbin/asterisk -rx '"rpt localplay '$node_number' /tmp/daycast"'
 #/usr/sbin/asterisk -rx "rpt playback 1998 /tmp/Saline"
 
 # END of Script
