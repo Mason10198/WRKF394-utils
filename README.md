@@ -26,3 +26,12 @@ All scripts can be scheduled in via `crontab`
     - `00 * * * * /usr/bin/perl /home/repeater/WRKF394-utils/say_short_time.pl [nodenumber]`
 - For an hourly time announcement with greeting & current weather conditions, followed by a local forecast for the remainder of the day:
     - `00 * * * * /home/repeater/WRKF394-utils/say_wx_time.sh`
+
+---
+
+## Updating
+To update the node information file and download new nodename audio files:
+
+`cd /home/repeater/WRKF394-utils`
+
+`./update.sh`
