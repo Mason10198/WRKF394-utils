@@ -26,6 +26,8 @@ All of the above utilities are intended to be scheduled via `crontab` and will, 
 
 Edit `params.conf` before installing. The file itself contains instructions on how to do this.
 
+Once `params.conf` is configured for your node:
+
     $ cd /home/repeater
     $ git clone https://github.com/mason10198/WRKF394-utils.git
     $ cd WRKF394-utils
