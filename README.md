@@ -32,6 +32,8 @@ Edit `params.conf` before installing. The file itself contains instructions on h
     $ sudo chmod +x install.sh
     $ ./install.sh
 
+### NOTE: The package ***MUST*** be located at `/home/repeater/WRKF394-utils`
+
 # Linking
 
 If you are setting up a repeater/node that will link to the Arkansas GMRS Repeater Group network, you will also need to install `wireguard` VPN and configure it to connect to our network, as well as make a few changes to your `rpt.conf` file.
