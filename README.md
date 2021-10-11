@@ -84,12 +84,12 @@ All scripts can be scheduled in via `crontab`. Here are some examples of `cronta
         
         00 * * * * /home/repeater/WRKF394-utils/say_wx_time.sh
 
-# Updating
+# Updating Node Information
 To update the node information file for Allmon2 and Supermon, and download new nodename audio files:
 
     $ cd /home/repeater/WRKF394-utils
-    $ ./update.sh
+    $ ./update_nodeinfo.sh
 
 It is recommended that you schedule this updater script to run automatically in `crontab`:
 
-    0 0 * * * /home/repeater/WRKF394-utils/update.sh
+    0 0 * * * /home/repeater/WRKF394-utils/update_nodeinfo.sh
