@@ -29,7 +29,11 @@ Download the package:
     $ git clone https://github.com/mason10198/WRKF394-utils.git
     $ cd WRKF394-utils
 
-Edit `params.conf` before installing. The `params.conf` file itself contains instructions on how to do this. After this is done, run the installer:
+Edit `params.conf` before installing. The `params.conf` file itself contains instructions on how to do this.
+
+    $ nano params.conf
+
+After this is done, run the installer:
     
     $ sudo chmod +x install.sh
     $ ./install.sh
