@@ -23,14 +23,14 @@ All of the above utilities are intended to be scheduled via `crontab` and will, 
 ***AFTER*** you have a configured setup and have verified that your interface settings are good, audio levels are good, and have done ***ALL*** of the proper setup and tuning, you may proceed.
 
 ---
-
-Edit `params.conf` before installing. The file itself contains instructions on how to do this.
-
-Once `params.conf` is configured for your node:
+Download the package:
 
     $ cd /home/repeater
     $ git clone https://github.com/mason10198/WRKF394-utils.git
     $ cd WRKF394-utils
+
+Edit `params.conf` before installing. The `params.conf` file itself contains instructions on how to do this. After this is done, run the installer:
+    
     $ sudo chmod +x install.sh
     $ ./install.sh
 
@@ -69,7 +69,7 @@ You now need to configure your `rpt.conf` file so that Asterisk knows how to con
 
 Underneath the line containing `[node_number] = radio@[ip_address]:4569/[node_number],NONE`, you need to add a similar line with the same formatting, containing the definition for the hub you are wanting to link to. You should get this information from an **admin**.
 
-# Usage
+# Script Usage Examples
 All scripts can be scheduled in via `crontab`. Here are some examples of `crontab` entries:
 
 - To have AutoSkywarn check every 60 seconds for severe weather:
@@ -87,6 +87,15 @@ All scripts can be scheduled in via `crontab`. Here are some examples of `cronta
 - For an hourly time announcement with greeting & current weather conditions, followed by a local forecast for the remainder of the day:
         
         00 * * * * /home/repeater/WRKF394-utils/say_wx_time.sh
+
+Remember that you can tie any of these scripts to a DTMF command in `rpt.conf`.
+
+Hint:
+
+- You hear AutoSkywarn announce a "special weather statement"
+- You think to yourself, "I wonder what the special weather is..."
+- You key *83 into your radio and `read_alerts.php` runs, telling you all of the details of the "special weather statement"
+
 
 # Updating Node Information
 To update the node information file for Allmon2 and Supermon, and download new nodename audio files:
