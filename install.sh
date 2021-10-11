@@ -36,10 +36,14 @@ install_utils () {
 
     echo "Moving privatenodes.txt..."
     sudo cp /home/repeater/WRKF394-utils/privatenodes.txt /var/www/html/allmon2/privatenodes.txt
+    sudo cp /home/repeater/WRKF394-utils/privatenodes.txt /var/www/html/supermon/privatenodes.txt
 
     echo "Updating node info via astdb.php..."
     sudo chmod +x /var/www/html/allmon2/astdb.php
+    sudo chmod +x /var/www/html/supermon/astdb.php
     sudo /var/www/html/allmon2/astdb.php
+    sudo /var/www/html/supermon/astdb.php
+
 
     echo ""
     echo "Done. Hopefully nothing explodes :)"
