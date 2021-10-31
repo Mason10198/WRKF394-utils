@@ -29,14 +29,14 @@ Download the package:
     $ git clone https://github.com/mason10198/WRKF394-utils.git
     $ cd WRKF394-utils
 
-Edit `params.conf` before installing. The `params.conf` file itself contains instructions on how to do this.
+Edit `params.conf` before building audio files. The `params.conf` file itself contains instructions on how to do this.
 
     $ nano params.conf
 
-After this is done, run the installer:
+After this is done, run the audio file builder:
     
-    $ sudo chmod +x install.sh
-    $ ./install.sh
+    $ sudo chmod +x build_audio.sh
+    $ ./build_audio.sh
 
 ### NOTE: The package ***MUST*** be located at `/home/repeater/WRKF394-utils`
 
