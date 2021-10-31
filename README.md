@@ -1,6 +1,6 @@
 # WRKF394-utils
 
-This package contains install/update scripts to aid in the creation & downloading of Arkansas GMRS Repeater Group node information, as well as the following tools & utilities:
+This package contains the following tools & utilities:
 - [AutoSkywarn](https://kizzy03.wixsite.com/kf5vh/auto-skywarn)
     - Suite of tools for automatically checking for and announcing severe weather alerts. Documentation available at link above.
 - `read_alerts.php`
@@ -40,39 +40,6 @@ After this is done, run the installer:
 
 ### NOTE: The package ***MUST*** be located at `/home/repeater/WRKF394-utils`
 
-# Linking
-
-If you are setting up a repeater/node that will link to the Arkansas GMRS Repeater Group network, you will also need to install `wireguard` VPN and configure it to connect to our network, as well as make a few changes to your `rpt.conf` file.
-
-## Wireguard VPN
-
-Begin by installing the `wireguard` package:
-
-    $ sudo apt update
-    $ sudo apt install wireguard
-
-Then configure `wireguard` by editing `wg0.conf` and adding your profile information (you should get this from an **admin**):
-
-    $ sudo nano /etc/wireguard/wg0.conf
-
-Once your profile information has been added to `wg0.conf`, you should tell `wireguard` to connect at boot:
-
-    $ sudo systemctl enable wg-quick@wg0.service
-    $ sudo systemctl daemon-reload
-
-Now you can either reboot and let the VPN autostart, or manually start the VPN now:
-
-    $ sudo systemctl start wg-quick@wg0
-
-You should now be able to run `ifconfig` and see the interface `wg0` connected with an IP address of `10.6.0.x`.
-
-## Editing Asterisk Config Files
-You now need to configure your `rpt.conf` file so that Asterisk knows how to connect to your regional hub:
-
-    $ sudo nano /etc/asterisk/rpt.conf
-
-Underneath the line containing `[node_number] = radio@[ip_address]:4569/[node_number],NONE`, you need to add a similar line with the same formatting, containing the definition for the hub you are wanting to link to. You should get this information from an **admin**.
-
 # Script Usage Examples
 All scripts can be scheduled in via `crontab`. Here are some examples of `crontab` entries:
 
@@ -99,14 +66,3 @@ Hint:
 - You hear AutoSkywarn announce a "special weather statement"
 - You think to yourself, "I wonder what the special weather is..."
 - You key *83 into your radio and `read_alerts.php` runs, telling you all of the details of the "special weather statement"
-
-
-# Updating Node Information
-To update the node information file for Allmon2 and Supermon, and download new nodename audio files:
-
-    $ cd /home/repeater/WRKF394-utils
-    $ ./update_nodeinfo.sh
-
-It is recommended that you schedule this updater script to run automatically in `crontab`:
-
-    0 0 * * * /home/repeater/WRKF394-utils/update_nodeinfo.sh
