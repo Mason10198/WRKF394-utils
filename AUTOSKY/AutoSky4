@@ -446,8 +446,9 @@ if [ -e $ENABLERPTCTL ]; then
       $RPTCTL1 $BOVWARN $BOVWATC $BOVADVS $BOVSPCL $MOREFLAG $RUNTOT
 fi
 
-# Now that Asterisk has played our alert, we can
+# Wait to be sure Asterisk has played our alert, then
 # move the tailmessage back where it goes - N5LSN
+sleep 30
 $MV /tmp/$TAILMSG $WXT/$TAILMSG
 
 exit 0
