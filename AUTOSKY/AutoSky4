@@ -413,7 +413,7 @@ if [[ $FOUNDONE -eq 0 ]]; then
       /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
 else
       if cmp -s "$NFILE4" "$OLDNFILE"; then # If alert is the same as the last alert
-            # Do nothing
+            : # Do nothing
       else
             # IF ENABLED
             # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
@@ -433,6 +433,7 @@ else
                   # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
                   /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" # Play the tailmessage we temporarily moved
             fi
+            echo "Copying " $WXT/$NFILE4 " to " $WXT/$OLDNFILE
             $CP -f $WXT/$NFILE4 $WXT/$OLDNFILE
       fi
 fi
