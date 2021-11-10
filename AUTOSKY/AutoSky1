@@ -105,10 +105,12 @@ Xresult="$?"
 case  $Xresult  in
          0)       
 #           echo MATCH - NOTHING TO DO
+       echo "Data is the same, nothing to do..."
 	    exit 0
             ;;
          1)       
 #     	    echo CURRENT VS LAST MISMATCH - CHANGE ANNOUNCEMENT so CALL AutoSky2
+            echo "New data found..."
             ./AutoSky2
 	    exit $?
             ;;
@@ -121,5 +123,7 @@ case  $Xresult  in
 #           echo BIG FAIL. Xresult was NOT 0, 1 or 2.
 	    exit -93
 esac 
+
+echo "AutoSky1 done."
 
 exit -94

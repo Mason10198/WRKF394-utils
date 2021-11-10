@@ -410,10 +410,11 @@ if [[ $FOUNDONE -eq 0 ]]; then
 
       # IN THE WHOLE FILE DIDN'T FIND A MATCH
       # SO PLAY ERROR TONE
-      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
+      echo "Playing error tone!"
+      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" &> /dev/null
 else
-      if cmp -s "$NFILE4" "$OLDNFILE"; then # If alert is the same as the last alert
-            echo -e "I think this is the same announcement I said earlier,\nso I'm going to skip it since it's redundant."
+      if cmp -s "$WXT/$NFILE4" "$WXT/$OLDNFILE"; then # If alert is the same as the last alert
+            echo "I think this is the same announcement I said earlier, so I'm going to skip it."
       else
             # IF ENABLED
             # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
@@ -423,7 +424,8 @@ else
                   sleep $TMBMTMSECS # used for KF5VH TMB/MTM Software - see a*conf
             fi
             if [ -e $ENABLEINFORMF ]; then
-                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE"
+                  echo 'Playing "updated information" message...'
+                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" &> /dev/null
             fi
 
             # IF ENABLED
@@ -431,9 +433,9 @@ else
             # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
             if [ -e $ENABLESAYTAIL ]; then
                   # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
+                  echo 'Playing tailmessage...'
                   /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" # Play the tailmessage we temporarily moved
             fi
-            echo "Copying " $WXT/$NFILE4 " to " $WXT/$OLDNFILE
             $CP -f $WXT/$NFILE4 $WXT/$OLDNFILE
       fi
 fi
@@ -448,7 +450,8 @@ fi
 
 # Wait to be sure Asterisk has played our alert, then
 # move the tailmessage back where it goes - N5LSN
+echo 'Waiting 30 seconds so Asterisk can do its thing...'
 sleep 30
 $MV /tmp/$TAILMSG $WXT/$TAILMSG
-
+echo "AutoSky4 done."
 exit 0

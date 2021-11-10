@@ -83,7 +83,8 @@ if [ -e $ENABLEINFORME ] ; then
 
     if [[ ( $BYBLK -eq 0 ) || ( $BYBLK -eq 1 && $SAYEMPTYBYBLK -eq 1 ) ]] ;
     then
-         /usr/sbin/asterisk -rvx "rpt localplay $NODE ${WXT}/${TFILEX%.*}"
+          echo 'Playing "all clear" message...'
+         /usr/sbin/asterisk -rvx "rpt localplay $NODE ${WXT}/${TFILEX%.*}" &> /dev/null
     fi
 
 fi
@@ -100,5 +101,9 @@ $CP -f $WXA/$VWORDSP $WXT/$TAILMSG
 if [ -e $ENABLERPTCTL ] ; then
      $RPTCTL0 $BYBLK
 fi
+
+$RM -f $WXT/$OLDNFILE
+
+echo "AutoSky3 done."
 
 exit 0

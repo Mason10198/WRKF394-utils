@@ -125,4 +125,6 @@ case  $Xresult  in
             fi
 esac 
 
+echo "AutoSky2 done."
+
 exit -94
