@@ -411,7 +411,7 @@ if [[ $FOUNDONE -eq 0 ]]; then
       # IN THE WHOLE FILE DIDN'T FIND A MATCH
       # SO PLAY ERROR TONE
       echo "Playing error tone!"
-      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" &> /dev/null
+      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" &>/dev/null
 else
       if cmp -s "$WXT/$NFILE4" "$WXT/$OLDNFILE"; then # If alert is the same as the last alert
             echo "I think this is the same announcement I said earlier, so I'm going to skip it."
@@ -425,7 +425,7 @@ else
             fi
             if [ -e $ENABLEINFORMF ]; then
                   echo 'Playing "updated information" message...'
-                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" &> /dev/null
+                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" &>/dev/null
             fi
 
             # IF ENABLED

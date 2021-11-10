@@ -33,10 +33,10 @@ WDN=${#WD[@]}
 # echo WDN is $WDN
 
 #
-cd $WX ;
+cd $WX
 #
 
-# 
+#
 # SHUFFLE DATA TO NEW FILE SO WE CAN PUT IT BACK
 # AFTER PROCESSING, SAVING THE REST OF THE CODE.
 $RM -f $NFILE2D
@@ -45,32 +45,29 @@ $RM -f $NFILE2
 
 # IF THE WD TABLE IS EMPTY [WD[0] IS CONSTANT]
 #  SKIP and ADJUST
-if [ ${WDN} -ne 1 ] ;
-then
+if [ ${WDN} -ne 1 ]; then
      # TAKE EACH LINE ONE AT A TIME
      # IF IN THE WD ARRAY DON'T COPY TO OUTPUT
-     
-     while IFS= read -r line
-     do
-           # DP flag change to "1" if match
-           DP=0
-           # Check line against WD contents
-           for (( i=1; i<${WDN}; i++ )) ;
-           do
-                # echo "loop i equals " $i
-                if [[ $line =~ ${WD[${i}]} ]] ; then
-                     DP=1
-                     # echo DP PARAMETER VALUE IS $DP
-                fi
-           done    
-     
-           if [ ${DP} -eq 0 ] ; then
-                /bin/echo $line >> $NFILE2
-           fi
 
-     done < "$NFILE2D"
+     while IFS= read -r line; do
+          # DP flag change to "1" if match
+          DP=0
+          # Check line against WD contents
+          for ((i = 1; i < ${WDN}; i++)); do
+               # echo "loop i equals " $i
+               if [[ $line =~ ${WD[${i}]} ]]; then
+                    DP=1
+                    # echo DP PARAMETER VALUE IS $DP
+               fi
+          done
 
-   else
+          if [ ${DP} -eq 0 ]; then
+               /bin/echo $line >>$NFILE2
+          fi
+
+     done <"$NFILE2D"
+
+else
 
      # STILL HAVE TO GET THE DATA BACK IN NFILE2
      $CP -f $NFILE2D $NFILE2
@@ -82,48 +79,51 @@ fi
 # MAKE SURE THE NEXT STEP FILES ARE CLEAR then
 # STRIP THE FIRST LINE WHICH LEAVES A, W and W
 $RM -f $NFILE3 $NFILE4
-$SED "1d" $NFILE2  > $NFILE3
+$SED "1d" $NFILE2 >$NFILE3
 $CP -f $NFILE3 $NFILE4
 
 # NOW GET RID OF THE MARKERS
 set -o noglob
-$SED -i 's%</title>%%'  $NFILE4
-$SED -i 's/<title>//'   $NFILE4
+$SED -i 's%</title>%%' $NFILE4
+$SED -i 's/<title>//' $NFILE4
 set +o noglob
 
 # FILE NFILE4 HAS THE TEXT TO PROCESS
 
 # IF RESULT HAS NO LINES THEN BLOCKING TOOK ALL EVENTS
 #   OR WE HAVE ONE OR MORE EVENTS TO PROCESS
-$WC -l < $NFILE4 > $WFILEWC
-Xresult=`cat $WFILEWC`
+$WC -l <$NFILE4 >$WFILEWC
+Xresult=$(cat $WFILEWC)
 # echo Xresult is $Xresult " ... " WFILEWC is $WFILEWC
 
-case  $Xresult  in
-         0)       
-#           echo  AutoSky2 NO LINES IN NFILE4 - BLOCKED CLEAR
-#           echo  SO CALL AutoSky3
-            # FIRST PARAM = 1 PSEUDO CLEAR VIA BLOCKING
-            ./AutoSky3 1
-	    exit $?
-            ;;
-         *)       
-#    	    AutoSky2 MIGHT BE A CLEAR MESSAGE OR SINGLE or MULTIPLE ALERT
-#           AutoSky2 CHECK FOR ALL CLEAR MESSAGE if NOT SET ANNOUNCEMENTS
-            $GREP -i "There are no active watches, warnings or advisories" $NFILE4 > /dev/null
-            Yresult=$?
-            if [ $Yresult -eq 0 ]
-            then
-#               echo AutoSky2 MATCHED - NO W, W or As so CALL AutoSky3
-                # FIRST PARAM = 0 TRUE ALL CLEAR
-                ./AutoSky3 0
-                exit $?
-            else
-#               echo AutoSky2 NO MATCH - WE HAVE A CHANGE IN THE WEATHER so CALL AutoSky4
-                ./AutoSky4
-                exit $?
-            fi
-esac 
+case $Xresult in
+0)
+     #           echo  AutoSky2 NO LINES IN NFILE4 - BLOCKED CLEAR
+     #           echo  SO CALL AutoSky3
+     # FIRST PARAM = 1 PSEUDO CLEAR VIA BLOCKING
+     ./AutoSky3 1
+     echo "AutoSky2 done."
+     exit $?
+     ;;
+*)
+     #    	    AutoSky2 MIGHT BE A CLEAR MESSAGE OR SINGLE or MULTIPLE ALERT
+     #           AutoSky2 CHECK FOR ALL CLEAR MESSAGE if NOT SET ANNOUNCEMENTS
+     $GREP -i "There are no active watches, warnings or advisories" $NFILE4 >/dev/null
+     Yresult=$?
+     if [ $Yresult -eq 0 ]; then
+          #               echo AutoSky2 MATCHED - NO W, W or As so CALL AutoSky3
+          # FIRST PARAM = 0 TRUE ALL CLEAR
+          ./AutoSky3 0
+          echo "AutoSky2 done."
+          exit $?
+     else
+          #               echo AutoSky2 NO MATCH - WE HAVE A CHANGE IN THE WEATHER so CALL AutoSky4
+          ./AutoSky4
+          echo "AutoSky2 done."
+          exit $?
+     fi
+     ;;
+esac
 
 echo "AutoSky2 done."
 
