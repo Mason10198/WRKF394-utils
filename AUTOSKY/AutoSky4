@@ -413,7 +413,7 @@ if [[ $FOUNDONE -eq 0 ]]; then
       /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
 else
       if cmp -s "$NFILE4" "$OLDNFILE"; then # If alert is the same as the last alert
-            : # Do nothing
+            echo -e "I think this is the same announcement I said earlier,\nso I'm going to skip it since it's redundant."
       else
             # IF ENABLED
             # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
