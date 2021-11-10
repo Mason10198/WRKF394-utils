@@ -412,23 +412,28 @@ if [[ $FOUNDONE -eq 0 ]]; then
       # SO PLAY ERROR TONE
       /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
 else
-      # IF ENABLED
-      # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
-      # THIS WILL BE A LOCAL PLAY OF A2FILE
-      # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
-      if [ $TMBMTM -eq 1 ]; then
-            sleep $TMBMTMSECS # used for KF5VH TMB/MTM Software - see a*conf
-      fi
-      if [ -e $ENABLEINFORMF ]; then
-            /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE"
-      fi
+      if cmp -s "$NFILE4" "$OLDNFILE"; then # If alert is the same as the last alert
+            # Do nothing
+      else
+            # IF ENABLED
+            # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
+            # THIS WILL BE A LOCAL PLAY OF A2FILE
+            # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
+            if [ $TMBMTM -eq 1 ]; then
+                  sleep $TMBMTMSECS # used for KF5VH TMB/MTM Software - see a*conf
+            fi
+            if [ -e $ENABLEINFORMF ]; then
+                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE"
+            fi
 
-      # IF ENABLED
-      # NOW PLAY THE NEW WX STATUS
-      # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
-      if [ -e $ENABLESAYTAIL ]; then
-            # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
-            /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" # Play the tailmessage we temporarily moved
+            # IF ENABLED
+            # NOW PLAY THE NEW WX STATUS
+            # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
+            if [ -e $ENABLESAYTAIL ]; then
+                  # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
+                  /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" # Play the tailmessage we temporarily moved
+            fi
+            $CP -f $WXT/$NFILE4 $WXT/$OLDNFILE
       fi
 fi
 
