@@ -9,32 +9,32 @@ source /home/repeater/WRKF394-utils/AUTOSKY/autoskywarn.conf
 #
 WX=${BASEDIR}
 #
-BOBWARN='bob.warn'	# Warnings   held here for BobTail Service
-BOBWATC='bob.watc'	# Watches    held here for BobTail Service
-BOBADVS='bob.advs'	# Advisories held here for BobTail Service
-BOBSPCL='bob.spcl'	# Specials   held here for BobTail Service
+BOBWARN='bob.warn' # Warnings   held here for BobTail Service
+BOBWATC='bob.watc' # Watches    held here for BobTail Service
+BOBADVS='bob.advs' # Advisories held here for BobTail Service
+BOBSPCL='bob.spcl' # Specials   held here for BobTail Service
 #
-BOKWARN='bok.warn'	# Warnings   line count held here
-BOKWATC='bok.watc'	# Watches    line count held here
-BOKADVS='bok.advs'	# Advisories line count held here
-BOKSPCL='bok.spcl'	# Specials   line count held here
+BOKWARN='bok.warn' # Warnings   line count held here
+BOKWATC='bok.watc' # Watches    line count held here
+BOKADVS='bok.advs' # Advisories line count held here
+BOKSPCL='bok.spcl' # Specials   line count held here
 #
-BOVWARN=0		# Warnings   value of BOKWARN
-BOVWATC=0		# Watches    value of BOKWATC
-BOVADVS=0		# Advisories value of BOKADVS
-BOVSPCL=0		# Specials   value of BOKSPCL
+BOVWARN=0 # Warnings   value of BOKWARN
+BOVWATC=0 # Watches    value of BOKWATC
+BOVADVS=0 # Advisories value of BOKADVS
+BOVSPCL=0 # Specials   value of BOKSPCL
 #
-RUNTOT=0		# RUNNING TOTAL OF MESSAGES IN WX TAIL
-MOREFLAG=0		# IF 1 THEN SAY "AND MORE" AT END OF WX TAIL
+RUNTOT=0   # RUNNING TOTAL OF MESSAGES IN WX TAIL
+MOREFLAG=0 # IF 1 THEN SAY "AND MORE" AT END OF WX TAIL
 #
-ANNN="xx"         # Announcement Number
-FOUNDONE=0        # Found (at least) one match
+ANNN="xx"  # Announcement Number
+FOUNDONE=0 # Found (at least) one match
 #
 # USED TO BUILD SOUND FILE NAMES
 BUILD1="asn"
 BUILD3=".wav"
 #
-cd $WX ;
+cd $WX
 #
 # FORCE  WS/WA  TO BE ARRAYS
 declare -a WS
@@ -167,8 +167,8 @@ WA[54]="54"
 #    THIS BECOMES THE "Existing" Weather Conditions
 $CP -f ${FILESAVE}.2 ${FILESAVE}.3
 $CP -f ${FILESAVE}.1 ${FILESAVE}.2
-$CP -f ${FILESAVE}   ${FILESAVE}.1
-echo "`date`"     >> ${FILESAVE}.1
+$CP -f ${FILESAVE} ${FILESAVE}.1
+echo "$(date)" >>${FILESAVE}.1
 $CP -f $NFILE2D $FILESAVE
 /bin/sync
 
@@ -179,25 +179,25 @@ $RM -f $BOBWARN $BOBWATC $BOBADVS $BOBSPCL $BOKWARN $BOKWATC $BOKADVS $BOKSPCL
 #   ALL WARNINGS BEFORE WATCHES BEFORE ...
 #   AND SORT FOR MULTIPLE TESTING
 
-$GREP -i "Warning"    < $NFILE4 | $SORT > $BOBWARN
-$GREP -i "Watch"      < $NFILE4 | $SORT > $BOBWATC
-$GREP -i "Advisory"   < $NFILE4 | $SORT > $BOBADVS
-$GREP -i "Statement"  < $NFILE4 | $SORT > $BOBSPCL
+$GREP -i "Warning" <$NFILE4 | $SORT >$BOBWARN
+$GREP -i "Watch" <$NFILE4 | $SORT >$BOBWATC
+$GREP -i "Advisory" <$NFILE4 | $SORT >$BOBADVS
+$GREP -i "Statement" <$NFILE4 | $SORT >$BOBSPCL
 # ADDED NEW CLASS of EVENT in 6M - "ALERT"
 # COMBINE AT "STATEMENT LEVEL"
-$GREP -i "Alert"      < $NFILE4 | $SORT >> $BOBSPCL
+$GREP -i "Alert" <$NFILE4 | $SORT >>$BOBSPCL
 
 # NOW ASSEMBLE THE COUNT OF ITEMS PER EVENT TYPE
-$WC -l < $BOBWARN > $BOKWARN
-$WC -l < $BOBWATC > $BOKWATC
-$WC -l < $BOBADVS > $BOKADVS
-$WC -l < $BOBSPCL > $BOKSPCL
+$WC -l <$BOBWARN >$BOKWARN
+$WC -l <$BOBWATC >$BOKWATC
+$WC -l <$BOBADVS >$BOKADVS
+$WC -l <$BOBSPCL >$BOKSPCL
 
 # NOW LOAD THE VALUE INTO THE RESPECTIVE VARIABLE
-BOVWARN=`/bin/cat $BOKWARN`
-BOVWATC=`/bin/cat $BOKWATC`
-BOVADVS=`/bin/cat $BOKADVS`
-BOVSPCL=`/bin/cat $BOKSPCL`
+BOVWARN=$(/bin/cat $BOKWARN)
+BOVWATC=$(/bin/cat $BOKWATC)
+BOVADVS=$(/bin/cat $BOKADVS)
+BOVSPCL=$(/bin/cat $BOKSPCL)
 
 # echo BOVWARN is $BOVWARN
 # echo BOVWATC is $BOVWATC
@@ -207,69 +207,69 @@ BOVSPCL=`/bin/cat $BOKSPCL`
 #
 ################## BOBTAIL CONTROL BEGINS #############
 #
-RUNTOT=0    # Counts the lines of output
+RUNTOT=0 # Counts the lines of output
 #
 # IF ENABLED TRIM THE EVENT LIST TO LIMTOT EVENTS (within design)
-if [ -e $ENABLEBOBTAIL ] ; then
-#
-#     # ADD EVENT SECTIONS UNTIL RUNTOT > LIMTOT
-#     
-#     # NOTE! - You can exceed LIMTOT if the SECTION has
-#     #       - more than one line ... never truncate a SECTION
-#     # WARNINGS ... PLAY ALL REGARDLESS OF COUNT
-      $CAT $BOBWARN  > $NFILE5
+if [ -e $ENABLEBOBTAIL ]; then
+      #
+      #     # ADD EVENT SECTIONS UNTIL RUNTOT > LIMTOT
+      #
+      #     # NOTE! - You can exceed LIMTOT if the SECTION has
+      #     #       - more than one line ... never truncate a SECTION
+      #     # WARNINGS ... PLAY ALL REGARDLESS OF COUNT
+      $CAT $BOBWARN >$NFILE5
       RUNTOT=$((${RUNTOT} + ${BOVWARN}))
-#     
-#     # echo BOVWARN is $BOVWARN
-#     # echo RUNTOT is $RUNTOT "   " BOVWARN is $BOVWARN "   " MOREFLAG is $MOREFLAG
-#     
-#     # IF RUNTOT LT LIMTOT THEN ADD ANOTHER SECTION
-      if [ $RUNTOT -lt $LIMTOT ] ; then
-         $CAT $BOBWATC >> $NFILE5 ;
-         RUNTOT=$((${RUNTOT}+${BOVWATC})) ;
+      #
+      #     # echo BOVWARN is $BOVWARN
+      #     # echo RUNTOT is $RUNTOT "   " BOVWARN is $BOVWARN "   " MOREFLAG is $MOREFLAG
+      #
+      #     # IF RUNTOT LT LIMTOT THEN ADD ANOTHER SECTION
+      if [ $RUNTOT -lt $LIMTOT ]; then
+            $CAT $BOBWATC >>$NFILE5
+            RUNTOT=$((${RUNTOT} + ${BOVWATC}))
       else
-#     #  echo AT WATCH WE ARE OVER LIMTOT ;
-         MOREFLAG=1 ;
+            #     #  echo AT WATCH WE ARE OVER LIMTOT ;
+            MOREFLAG=1
       fi
-#     
-#     # echo BOVWATC is $BOVWATC
-#     # echo RUNTOT is $RUNTOT and LIMTOT is $LIMTOT "   " MOREFLAG is $MOREFLAG ;
-#     
-#     # IF RUNTOT LT LIMTOT THEN ADD ANOTHER SECTION
-      if [ $RUNTOT -lt $LIMTOT ] ; then
-         $CAT $BOBADVS >> $NFILE5 ;
-         RUNTOT=$((${RUNTOT}+${BOVADVS})) ;
+      #
+      #     # echo BOVWATC is $BOVWATC
+      #     # echo RUNTOT is $RUNTOT and LIMTOT is $LIMTOT "   " MOREFLAG is $MOREFLAG ;
+      #
+      #     # IF RUNTOT LT LIMTOT THEN ADD ANOTHER SECTION
+      if [ $RUNTOT -lt $LIMTOT ]; then
+            $CAT $BOBADVS >>$NFILE5
+            RUNTOT=$((${RUNTOT} + ${BOVADVS}))
       else
-#     #  echo AT ADVISORY WE ARE OVER LIMTOT ;
-         MOREFLAG=1 ;
+            #     #  echo AT ADVISORY WE ARE OVER LIMTOT ;
+            MOREFLAG=1
       fi
-#     
-#     # echo BOVADVS is $BOVADVS
-#     # echo RUNTOT is $RUNTOT and LIMTOT is $LIMTOT "   " MOREFLAG is $MOREFLAG ;
-#     
-#     # IF RUNTOT LT LIMTOT THEN ADD ANOTHER SECTION
-      if [ $RUNTOT -lt $LIMTOT ] ; then
-         $CAT $BOBSPCL >> $NFILE5 ;
-         RUNTOT=$((${RUNTOT}+${BOVSPCL})) ;
+      #
+      #     # echo BOVADVS is $BOVADVS
+      #     # echo RUNTOT is $RUNTOT and LIMTOT is $LIMTOT "   " MOREFLAG is $MOREFLAG ;
+      #
+      #     # IF RUNTOT LT LIMTOT THEN ADD ANOTHER SECTION
+      if [ $RUNTOT -lt $LIMTOT ]; then
+            $CAT $BOBSPCL >>$NFILE5
+            RUNTOT=$((${RUNTOT} + ${BOVSPCL}))
       else
-#     #  echo AT SPECIAL WE ARE OVER LIMTOT ;
-         MOREFLAG=1 ;
+            #     #  echo AT SPECIAL WE ARE OVER LIMTOT ;
+            MOREFLAG=1
       fi
-#     
-#     # echo BOVSPCL is $BOVSPCL
-#     # echo RUNTOT is $RUNTOT and LIMTOT is $LIMTOT "   " MOREFLAG is $MOREFLAG ;
-#     
-#     # IF WE TRUNCATED THE LENGTH SAY "AND MORE"
-      if [ $MOREFLAG -eq 1 ] ; then
-         if [ $RUNTOT -ge $LIMTOT ] ; then
-            /bin/echo "AUTOSKY MORE" >> $NFILE5
-         fi
+      #
+      #     # echo BOVSPCL is $BOVSPCL
+      #     # echo RUNTOT is $RUNTOT and LIMTOT is $LIMTOT "   " MOREFLAG is $MOREFLAG ;
+      #
+      #     # IF WE TRUNCATED THE LENGTH SAY "AND MORE"
+      if [ $MOREFLAG -eq 1 ]; then
+            if [ $RUNTOT -ge $LIMTOT ]; then
+                  /bin/echo "AUTOSKY MORE" >>$NFILE5
+            fi
       fi
-#     
-else
 #
-#     # BOBTAIL OFF ... put it all back together in NEW ORDER!
-      $CAT $BOBWARN $BOBWATC $BOBADVS $BOBSPCL > $NFILE5
+else
+      #
+      #     # BOBTAIL OFF ... put it all back together in NEW ORDER!
+      $CAT $BOBWARN $BOBWATC $BOBADVS $BOBSPCL >$NFILE5
 
 fi
 #
@@ -284,13 +284,13 @@ fi
 # THEN PATCH IN "for countyname county" OR ANY OTHER SOUND
 # FOLLOWED BY A WORD-SPACE
 # ELSE PATCH IN A WORD-SPACE to the WX TAIL MESSAGE
-if [ -e ${WXA}/${COUNTYLT} ] ; then
-     $CP -f  $WXA/$COUNTYLT $WXT/$TAILMSG
-     $RM -f  $WXT/$TFILEW         #Make available for output
-     $CATWAV $WXT/$TAILMSG  $WXA/$VWORDSP $WXT/$TFILEW
-     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
-  else
-     $CP -f $WXA/$VWORDSP   $WXT/$TAILMSG
+if [ -e ${WXA}/${COUNTYLT} ]; then
+      $CP -f $WXA/$COUNTYLT $WXT/$TAILMSG
+      $RM -f $WXT/$TFILEW #Make available for output
+      $CATWAV $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
+      $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+else
+      $CP -f $WXA/$VWORDSP $WXT/$TAILMSG
 fi
 
 # MARK AS NOTHING FOUND IN FILE NFILE5
@@ -304,141 +304,144 @@ MATCH=0
 # THIS VARIABLE POINTS TO THE MUTIPLE EVENT ANNOUNCEMENT
 MULTIANN=90
 
-while IFS= read -r line
-do
+while IFS= read -r line; do
 
-#     Look for string in current line
-#     If match, build WX-TAIL and then move to next line in NFILE5
+      #     Look for string in current line
+      #     If match, build WX-TAIL and then move to next line in NFILE5
 
-      for (( i=1; i<55; i++ )) ;
-      do
-#          echo "loop i equals " $i
-           if [[ $line =~ ${WS[${i}]} ]] ; then
-                ANNN=${WA[$i]}
-#               echo ANNN PARAMETER VALUE IS $ANNN
+      for ((i = 1; i < 55; i++)); do
+            #          echo "loop i equals " $i
+            if [[ $line =~ ${WS[${i}]} ]]; then
+                  ANNN=${WA[$i]}
+                  #               echo ANNN PARAMETER VALUE IS $ANNN
 
-#               MULTIPLE EVENT CHECKING
-                CURR=$ANNN
+                  #               MULTIPLE EVENT CHECKING
+                  CURR=$ANNN
 
-#               echo "Prev equal to Curr Event P = " $PREV " C = " $CURR
+                  #               echo "Prev equal to Curr Event P = " $PREV " C = " $CURR
 
-                if [[ $CURR -eq $PREV ]] ; then
-			MATCH=$(($MATCH + 1))
-                   else
+                  if [[ $CURR -eq $PREV ]]; then
+                        MATCH=$(($MATCH + 1))
+                  else
                         MATCH=0
-                fi
+                  fi
 
-		if [[ $MATCH -eq 0 ]] ; then
+                  if [[ $MATCH -eq 0 ]]; then
 
-#                    # BUILD TAILMSG - NOW ADD A "AUDIO TIC" TO THE TAILMSG
-	             $RM -f  $WXT/$TFILEW     #Make available for output
-		     $CATWAV     $WXT/$TAILMSG $WXA/${BUILD1}${AUDIOTIC}${BUILD3} $WXT/$TFILEW
-		     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
+                        #                    # BUILD TAILMSG - NOW ADD A "AUDIO TIC" TO THE TAILMSG
+                        $RM -f $WXT/$TFILEW #Make available for output
+                        $CATWAV $WXT/$TAILMSG $WXA/${BUILD1}${AUDIOTIC}${BUILD3} $WXT/$TFILEW
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
 
-#                    # BUILD TAILMSG - NOW ADDING THE NEW ALERT TO THE TAILMSG
-	             $RM -f  $WXT/$TFILEW     #Make available for output
-		     $CATWAV     $WXT/$TAILMSG $WXA/${BUILD1}${ANNN}${BUILD3} $WXT/$TFILEW
-		     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
+                        #                    # BUILD TAILMSG - NOW ADDING THE NEW ALERT TO THE TAILMSG
+                        $RM -f $WXT/$TFILEW #Make available for output
+                        $CATWAV $WXT/$TAILMSG $WXA/${BUILD1}${ANNN}${BUILD3} $WXT/$TFILEW
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
 
-#                    # BUILD TAILMSG - NOW ADD A "WORDSPACE" TO THE TAILMSG
-		     $RM -f  $WXT/$TFILEW     #Make available for output
-		     $CATWAV     $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
-		     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
-                fi
+                        #                    # BUILD TAILMSG - NOW ADD A "WORDSPACE" TO THE TAILMSG
+                        $RM -f $WXT/$TFILEW #Make available for output
+                        $CATWAV $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                  fi
 
+                  if [[ $MATCH -eq 1 ]]; then
 
-		if [[ $MATCH -eq 1 ]] ; then
+                        #                    # BUILD TAILMSG - ADD MULTIPLE MESSAGE
+                        $RM -f $WXT/$TFILEW #Make available for output
+                        $CATWAV $WXT/$TAILMSG $WXA/${BUILD1}${MULTIANN}${BUILD3} $WXT/$TFILEW
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
 
-#                    # BUILD TAILMSG - ADD MULTIPLE MESSAGE
-	             $RM -f  $WXT/$TFILEW     #Make available for output
-		     $CATWAV     $WXT/$TAILMSG $WXA/${BUILD1}${MULTIANN}${BUILD3} $WXT/$TFILEW
-		     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
+                        #                    # BUILD TAILMSG - NOW ADD A "WORDSPACE" TO THE TAILMSG
+                        $RM -f $WXT/$TFILEW #Make available for output
+                        $CATWAV $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                  fi
 
-#                    # BUILD TAILMSG - NOW ADD A "WORDSPACE" TO THE TAILMSG
-                     $RM -f  $WXT/$TFILEW     #Make available for output
-                     $CATWAV     $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
-                     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
-                fi
+                  if [[ $MATCH -ge 2 ]]; then
+                        #                    # NOW THIRD OR GREATER COPY - DO NOTHING
+                        #		     # echo 3RD or > MATCH
+                        echo dummy >/dev/null
+                  fi
 
-                if [[ $MATCH -ge 2 ]] ; then
-#                    # NOW THIRD OR GREATER COPY - DO NOTHING
-#		     # echo 3RD or > MATCH
-                     echo dummy > /dev/null
-                fi
-
-               FOUNDONE=1
-	       /bin/sync
-               break
-          else
-#              # CURRENT TEST DOES NOT MATCH - SHOULD IT BE ADDED TO LIST?
-#	       echo AUTOSKY4 WS STRING NO MATCH
-               /bin/sync
-          fi
+                  FOUNDONE=1
+                  /bin/sync
+                  break
+            else
+                  #              # CURRENT TEST DOES NOT MATCH - SHOULD IT BE ADDED TO LIST?
+                  #	       echo AUTOSKY4 WS STRING NO MATCH
+                  /bin/sync
+            fi
       done
 
-#     # DONE PROCESSING CURRENT, MAKE IT PREVIOUS
+      #     # DONE PROCESSING CURRENT, MAKE IT PREVIOUS
       PREV=$CURR
 
-done < "$NFILE5"
-
+done <"$NFILE5"
 
 # IFF COUNTYFT EXISTS (THINK COUNTY *F*OLLOWS *T*AILMSG)
 # PATCH IN "for countyname county"  OR ANY OTHER SOUND
-if [ -e ${WXA}/${COUNTYFT} ] ; then
-     $RM -f  $WXT/$TFILEW          #Make available for output
-     $CATWAV $WXT/$TAILMSG  $WXA/$COUNTYFT $WXT/$TFILEW
-     $CP -f  $WXT/$TFILEW   $WXT/$TAILMSG
+if [ -e ${WXA}/${COUNTYFT} ]; then
+      $RM -f $WXT/$TFILEW #Make available for output
+      $CATWAV $WXT/$TAILMSG $WXA/$COUNTYFT $WXT/$TFILEW
+      $CP -f $WXT/$TFILEW $WXT/$TAILMSG
 fi
+
+# Temporarily move the real tailmessage to /tmp/ and
+# replace it with an empty one to keep Asterisk from
+# playing a duplicate alert - N5LSN
+$MV $WXT/$TAILMSG /tmp/$TAILMSG
+$CP -f $WXA/$VWORDSP $WXT/$TAILMSG
 
 /bin/sync
 
 #
 ################## END BUILDING WX-TAIL #############
 #
-if [[ $FOUNDONE -eq 0 ]] ; then
+if [[ $FOUNDONE -eq 0 ]]; then
 
+      # INTERFACE WITH  MID-JB-PRI  TO SET SKYWARN REPEATER ID
+      MIDD=/usr/local/MID
+      MIDJBD=$MIDD/MID-JB
+      if [ -e $MIDD ]; then
+            $MIDJBD/jb 2 2 #set a SkyWarn ID
+            /bin/sleep 1s
+            /bin/sync
+      fi
 
+      # IN THE WHOLE FILE DIDN'T FIND A MATCH
+      # SO PLAY ERROR TONE
+      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
+else
+      # IF ENABLED
+      # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
+      # THIS WILL BE A LOCAL PLAY OF A2FILE
+      # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
+      if [ $TMBMTM -eq 1 ]; then
+            sleep $TMBMTMSECS # used for KF5VH TMB/MTM Software - see a*conf
+      fi
+      if [ -e $ENABLEINFORMF ]; then
+            /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE"
+      fi
 
-     # INTERFACE WITH  MID-JB-PRI  TO SET SKYWARN REPEATER ID
-     MIDD=/usr/local/MID
-     MIDJBD=$MIDD/MID-JB
-     if [ -e $MIDD ] ; then
-          $MIDJBD/jb 2 2          #set a SkyWarn ID
-          /bin/sleep 1s
-          /bin/sync
-     fi
-
-
-
-     # IN THE WHOLE FILE DIDN'T FIND A MATCH
-     # SO PLAY ERROR TONE
-     /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
-   else
-     # IF ENABLED
-     # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
-     # THIS WILL BE A LOCAL PLAY OF A2FILE
-     # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
-     if [ $TMBMTM -eq 1 ] ; then
-         sleep $TMBMTMSECS  # used for KF5VH TMB/MTM Software - see a*conf
-     fi
-     if [ -e $ENABLEINFORMF ] ; then
-        /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE"
-     fi
-
-     # IF ENABLED
-     # NOW PLAY THE NEW WX STATUS
-     # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
-     if [ -e $ENABLESAYTAIL ] ; then
-        /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE"
-     fi
+      # IF ENABLED
+      # NOW PLAY THE NEW WX STATUS
+      # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
+      if [ -e $ENABLESAYTAIL ]; then
+            # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
+            /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" # Play the tailmessage we temporarily moved
+      fi
 fi
 
 /bin/sync
 
 # IF ENABLED, CALL REPEATER CONTROL SCRIPT
 # FOR SKYWARN OPERATIONS
-if [ -e $ENABLERPTCTL ] ; then
-     $RPTCTL1 $BOVWARN $BOVWATC $BOVADVS $BOVSPCL $MOREFLAG $RUNTOT
+if [ -e $ENABLERPTCTL ]; then
+      $RPTCTL1 $BOVWARN $BOVWATC $BOVADVS $BOVSPCL $MOREFLAG $RUNTOT
 fi
+
+# Now that Asterisk has played our alert, we can
+# move the tailmessage back where it goes - N5LSN
+$MV /tmp/$TAILMSG $WXT/$TAILMSG
 
 exit 0
