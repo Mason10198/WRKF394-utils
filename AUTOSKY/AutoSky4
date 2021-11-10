@@ -411,7 +411,7 @@ if [[ $FOUNDONE -eq 0 ]]; then
       # IN THE WHOLE FILE DIDN'T FIND A MATCH
       # SO PLAY ERROR TONE
       echo "Playing error tone!"
-      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" &>/dev/null
+      /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" >/dev/null 2>&1
 else
       if cmp -s "$WXT/$NFILE4" "$WXT/$OLDNFILE"; then # If alert is the same as the last alert
             echo "I think this is the same announcement I said earlier, so I'm going to skip it."
@@ -425,7 +425,7 @@ else
             fi
             if [ -e $ENABLEINFORMF ]; then
                   echo 'Playing "updated information" message...'
-                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" &>/dev/null
+                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" >/dev/null 2>&1
             fi
 
             # IF ENABLED
@@ -433,10 +433,15 @@ else
             # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
             if [ -e $ENABLESAYTAIL ]; then
                   # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
-                  echo 'Playing tailmessage...'
-                  /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" # Play the tailmessage we temporarily moved
+                  echo 'Playing tail-message...'
+                  /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" >/dev/null 2>&1 # Play the tailmessage we temporarily moved
             fi
             $CP -f $WXT/$NFILE4 $WXT/$OLDNFILE
+            # Wait to be sure Asterisk has played our alert, then
+            # move the tailmessage back where it goes - N5LSN
+            echo 'Waiting 30 seconds for Asterisk to finish up...'
+            sleep 30
+            $MV /tmp/$TAILMSG $WXT/$TAILMSG
       fi
 fi
 
@@ -448,10 +453,5 @@ if [ -e $ENABLERPTCTL ]; then
       $RPTCTL1 $BOVWARN $BOVWATC $BOVADVS $BOVSPCL $MOREFLAG $RUNTOT
 fi
 
-# Wait to be sure Asterisk has played our alert, then
-# move the tailmessage back where it goes - N5LSN
-echo 'Waiting 30 seconds so Asterisk can do its thing...'
-sleep 30
-$MV /tmp/$TAILMSG $WXT/$TAILMSG
 echo "AutoSky4 done."
 exit 0

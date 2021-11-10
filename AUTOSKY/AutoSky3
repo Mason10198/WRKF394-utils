@@ -83,7 +83,7 @@ if [ -e $ENABLEINFORME ]; then
 
      if [[ ($BYBLK -eq 0) || ($BYBLK -eq 1 && $SAYEMPTYBYBLK -eq 1) ]]; then
           echo 'Playing "all clear" message...'
-          /usr/sbin/asterisk -rvx "rpt localplay $NODE ${WXT}/${TFILEX%.*}" &>/dev/null
+          /usr/sbin/asterisk -rvx "rpt localplay $NODE ${WXT}/${TFILEX%.*}" > /dev/null 2>&1
      fi
 
 fi
