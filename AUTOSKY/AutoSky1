@@ -6,7 +6,7 @@
 # syntax: AutoSky1 {testnumber}
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
-source $BASEDIR/autoskywarn.conf
+source autoskywarn.conf
 
 #
 WX=${BASEDIR}
