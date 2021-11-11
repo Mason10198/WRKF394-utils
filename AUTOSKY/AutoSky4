@@ -445,13 +445,13 @@ else
             # N.B., THIS MESSAGE IS NOT INTERRUPTABLE ONCE STARTED AT RX DROP
             if [ -e $ENABLESAYTAIL ]; then
                   # /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXT/$TAILMSGBASE" # ORIGINAL LINE
-                  echo 'Playing tail-message...'
+                  echo $(date "+%x-%X") 'Playing tail-message...'
                   /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" >/dev/null 2>&1 # Play the tailmessage we temporarily moved
             fi
             $CP -f $WXT/$NFILE4 $WXT/$OLDNFILE
             # Wait to be sure Asterisk has played our alert, then
             # move the tailmessage back where it goes - N5LSN
-            echo 'Waiting 30 seconds for Asterisk to finish up...'
+            echo $(date "+%x-%X") 'Waiting 30 seconds for Asterisk to finish up...'
             sleep 30
             $MV /tmp/$TAILMSG $WXT/$TAILMSG
       fi
