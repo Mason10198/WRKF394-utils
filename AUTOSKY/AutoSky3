@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # set -x
-# echo This is AutoSky3 - Author Steve Mahler - KF5VH - GO BOILERS!!
+# echo $(date "%x-%X") This is AutoSky3 - Author Steve Mahler - KF5VH - GO BOILERS!!
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
 CWD="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -83,7 +83,7 @@ if [ -e $ENABLEINFORME ]; then
      fi
 
      if [[ ($BYBLK -eq 0) || ($BYBLK -eq 1 && $SAYEMPTYBYBLK -eq 1) ]]; then
-          echo 'Playing "all clear" message...'
+          echo $(date "%x-%X") 'Playing "all clear" message...'
           /usr/sbin/asterisk -rvx "rpt localplay $NODE ${WXT}/${TFILEX%.*}" > /dev/null 2>&1
      fi
 

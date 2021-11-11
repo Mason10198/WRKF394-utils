@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # set -x
-# echo This is AutoSky1 - Author Steve Mahler - KF5VH - GO BOILERS!!
+# echo $(date "%x-%X") This is AutoSky1 - Author Steve Mahler - KF5VH - GO BOILERS!!
 #
 # syntax: AutoSky1 {testnumber}
 #
@@ -21,7 +21,7 @@ cd $WX
 
 # IS AUTOSKY ENABLED?
 if [ ! -e $ENABLEFILE ]; then
-   echo "AutoSkywarn not enabled!"
+   echo $(date "%x-%X") "AutoSkywarn not enabled!"
    exit -90
 fi
 
@@ -47,56 +47,56 @@ fi
 case $TCONTROL in
 
 0)
-   echo 1 >/dev/null
+   echo $(date "%x-%X") 1 >/dev/null
    ;;
 1)
    # Tornado Watch / Tornado Warning
-   echo "Running Test #1: Tornado Watch / Tornado Warning..."
+   echo $(date "%x-%X") "Running Test #1: Tornado Watch / Tornado Warning..."
    $CP -f test.file1 $NFILE1
    ;;
 2)
    # Tornado Watch / Winter WX Adv / Tornado Watch / Red Flag Warning
-   echo "Running Test #2: Tornado Watch / Winter WX Adv / Tornado Watch / Red Flag Warning..."
+   echo $(date "%x-%X") "Running Test #2: Tornado Watch / Winter WX Adv / Tornado Watch / Red Flag Warning..."
    $CP -f test.file2 $NFILE1
    ;;
 3)
    # Tornado Warning / Frost Adv / Tornado Warning
-   echo "Running Test #3: Tornado Warning / Frost Adv / Tornado Warning..."
+   echo $(date "%x-%X") "Running Test #3: Tornado Warning / Frost Adv / Tornado Warning..."
    $CP -f test.file3 $NFILE1
    ;;
 4)
    # Frost Adv / Tornado Warning / Frost Adv / Spcl Wx / Tornado Watch / Frost Adv
-   echo "Running Test #4: Frost Adv / Tornado Warning / Frost Adv / Spcl Wx / Tornado Watch / Frost Adv..."
+   echo $(date "%x-%X") "Running Test #4: Frost Adv / Tornado Warning / Frost Adv / Spcl Wx / Tornado Watch / Frost Adv..."
    $CP -f test.file4 $NFILE1
    ;;
 5)
    # Small Craft Adv / Frost Adv / Tornado Warning / Special WX * 5 / Hurricane Warning
-   echo "Running Test #5: Small Craft Adv / Frost Adv / Tornado Warning / Special WX * 5 / Hurricane Warning..."
+   echo $(date "%x-%X") "Running Test #5: Small Craft Adv / Frost Adv / Tornado Warning / Special WX * 5 / Hurricane Warning..."
    $CP -f test.file5 $NFILE1
    ;;
 6)
    # Flood Warning * 2
-   echo "Running Test #6: Flood Warning * 2..."
+   echo $(date "%x-%X") "Running Test #6: Flood Warning * 2..."
    $CP -f test.file6 $NFILE1
    ;;
 7)
    # Excessive Heat Warning / Tropical Storm Watch / Wind Chill Adv * 2
-   echo "Running Test #7: Excessive Heat Warning / Tropical Storm Watch / Wind Chill Adv * 2..."
+   echo $(date "%x-%X") "Running Test #7: Excessive Heat Warning / Tropical Storm Watch / Wind Chill Adv * 2..."
    $CP -f test.file7 $NFILE1
    ;;
 8)
    # [Say every warning, long!, no order, can interfer with tail message playing!]
-   echo "Running Test #8: Say every warning, long, no order..."
+   echo $(date "%x-%X") "Running Test #8: Say every warning, long, no order..."
    $CP -f test.file8 $NFILE1
    ;;
 9)
    # Single Special Weather
-   echo "Running Test #9: Single Special Weather..."
+   echo $(date "%x-%X") "Running Test #9: Single Special Weather..."
    $CP -f test.file9 $NFILE1
    ;;
 *)
    # error - ring the error bell
-   echo "TEST MODE ERROR!"
+   echo $(date "%x-%X") "TEST MODE ERROR!"
    /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE"
    exit -89
    ;;
@@ -111,27 +111,27 @@ $EGREP "title" <$NFILE1 >$NFILE2
 $DIFF $NFILE2 $FILESAVE >/dev/null 2>/dev/null
 Xresult="$?"
 
-# echo AutoSky1 Xresult is $Xresult
+# echo $(date "%x-%X") AutoSky1 Xresult is $Xresult
 
 case $Xresult in
 0)
-   #           echo MATCH - NOTHING TO DO
-   echo "Data is the same, nothing to do..."
+   #           echo $(date "%x-%X") MATCH - NOTHING TO DO
+   echo $(date "%x-%X") "Data is the same, nothing to do..."
    exit 0
    ;;
 1)
-   #     	    echo CURRENT VS LAST MISMATCH - CHANGE ANNOUNCEMENT so CALL AutoSky2
-   echo "New data found..."
+   #     	    echo $(date "%x-%X") CURRENT VS LAST MISMATCH - CHANGE ANNOUNCEMENT so CALL AutoSky2
+   echo $(date "%x-%X") "New data found..."
    ./AutoSky2
    exit $?
    ;;
 2)
-   #     	    echo DIFF COMMAND FAILED. Xresult was 2.
-   #           echo FIGURE OUT WHAT TO DO
+   #     	    echo $(date "%x-%X") DIFF COMMAND FAILED. Xresult was 2.
+   #           echo $(date "%x-%X") FIGURE OUT WHAT TO DO
    exit -92
    ;;
 *)
-   #           echo BIG FAIL. Xresult was NOT 0, 1 or 2.
+   #           echo $(date "%x-%X") BIG FAIL. Xresult was NOT 0, 1 or 2.
    exit -93
    ;;
 esac
