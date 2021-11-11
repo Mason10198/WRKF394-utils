@@ -13,19 +13,24 @@ build_audio () {
 
     clear="The national weather service has no current alerts, watches, or warnings for "
     alert="Updated weather information for "
+    alert="Severe weather alert for "
 
     clearurl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
     alerturl=$( printf "%s\n" "$url$alert$county_name" | sed 's/ /%20/g' )
+    severeurl=$( printf "%s\n" "$url$severe$county_name" | sed 's/ /%20/g' )
 
-    wget -U Mozilla -O "/tmp/clear.wav" $clearurl
-    wget -U Mozilla -O "/tmp/alert.wav" $alerturl
+    wget -q -U Mozilla -O "/tmp/clear.wav" $clearurl
+    wget -q -U Mozilla -O "/tmp/alert.wav" $alerturl
+    wget -q -U Mozilla -O "/tmp/severe.wav" $severeurl
 
     cp $BASEDIR/SOUNDS/asn96Z.wav $BASEDIR/SOUNDS/asn96Z.wav.old
     cp $BASEDIR/SOUNDS/asn97.wav $BASEDIR/SOUNDS/asn97.wav.old
+    cp $BASEDIR/SOUNDS/asn97S.wav $BASEDIR/SOUNDS/asn97S.wav.old
 
     echo "Compiling audio files..."
     sox $BASEDIR/SOUNDS/asn96Z-tweet.wav /tmp/clear.wav $BASEDIR/SOUNDS/asn96Z.wav
     sox $BASEDIR/SOUNDS/asn97-tweet.wav /tmp/alert.wav $BASEDIR/SOUNDS/asn97.wav
+    sox $BASEDIR/SOUNDS/asn97S-tweet.wav /tmp/severe.wav $BASEDIR/SOUNDS/asn97S.wav
 
     echo -e "\nDone. Hopefully nothing explodes :)"
 }

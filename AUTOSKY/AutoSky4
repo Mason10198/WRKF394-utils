@@ -306,6 +306,8 @@ CURR=1001
 MATCH=0
 # THIS VARIABLE POINTS TO THE MUTIPLE EVENT ANNOUNCEMENT
 MULTIANN=90
+# THIS VARIABLE SAYS THE LIST OF ALERTS CONTAINS A TORNADO WARNING
+TORNADO=0
 
 while IFS= read -r line; do
 
@@ -315,6 +317,9 @@ while IFS= read -r line; do
       for ((i = 1; i < 55; i++)); do
             #          echo "loop i equals " $i
             if [[ $line =~ ${WS[${i}]} ]]; then
+                  if [[ $line =~ ${WS[36]} ]]; then # If line contains Tornado Warning
+                  TORNADO=1
+                  fi
                   ANNN=${WA[$i]}
                   #               echo ANNN PARAMETER VALUE IS $ANNN
 
@@ -427,8 +432,13 @@ else
                   sleep $TMBMTMSECS # used for KF5VH TMB/MTM Software - see a*conf
             fi
             if [ -e $ENABLEINFORMF ]; then
-                  echo 'Playing "updated information" message...'
-                  /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" >/dev/null 2>&1
+                  if (( $TORNADO == 1 )); then # If a tornado Warning was found
+                        echo 'Playing TORNADO WARNING message...'
+                        /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A4FILE" >/dev/null 2>&1
+                  else # If Tornado Warning NOT found
+                        echo 'Playing updated info message...'
+                        /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" >/dev/null 2>&1
+                  fi
             fi
 
             # IF ENABLED
