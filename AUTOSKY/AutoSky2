@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # set -x
-# echo $(date "%x-%X") This is AutoSky2 - Author Steve Mahler - KF5VH - GO BOILERS!!
+# echo $(date "+%x-%X") This is AutoSky2 - Author Steve Mahler - KF5VH - GO BOILERS!!
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
 CWD="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -31,7 +31,7 @@ WD[0]="DO NOT DELETE - THINGS LISTED HERE ARE BLOCKED"
 
 # SET TO TOTAL NUMBER OF ELEMENTS IN ARRAY ("0" too!)
 WDN=${#WD[@]}
-# echo $(date "%x-%X") WDN is $WDN
+# echo $(date "+%x-%X") WDN is $WDN
 
 #
 cd $WX
@@ -55,10 +55,10 @@ if [ ${WDN} -ne 1 ]; then
           DP=0
           # Check line against WD contents
           for ((i = 1; i < ${WDN}; i++)); do
-               # echo $(date "%x-%X") "loop i equals " $i
+               # echo $(date "+%x-%X") "loop i equals " $i
                if [[ $line =~ ${WD[${i}]} ]]; then
                     DP=1
-                    # echo $(date "%x-%X") DP PARAMETER VALUE IS $DP
+                    # echo $(date "+%x-%X") DP PARAMETER VALUE IS $DP
                fi
           done
 
@@ -95,12 +95,12 @@ set +o noglob
 #   OR WE HAVE ONE OR MORE EVENTS TO PROCESS
 $WC -l <$NFILE4 >$WFILEWC
 Xresult=$(cat $WFILEWC)
-# echo $(date "%x-%X") Xresult is $Xresult " ... " WFILEWC is $WFILEWC
+# echo $(date "+%x-%X") Xresult is $Xresult " ... " WFILEWC is $WFILEWC
 
 case $Xresult in
 0)
-     #           echo $(date "%x-%X")  AutoSky2 NO LINES IN NFILE4 - BLOCKED CLEAR
-     #           echo $(date "%x-%X")  SO CALL AutoSky3
+     #           echo $(date "+%x-%X")  AutoSky2 NO LINES IN NFILE4 - BLOCKED CLEAR
+     #           echo $(date "+%x-%X")  SO CALL AutoSky3
      # FIRST PARAM = 1 PSEUDO CLEAR VIA BLOCKING
      ./AutoSky3 1
      exit $?
@@ -111,12 +111,12 @@ case $Xresult in
      $GREP -i "There are no active watches, warnings or advisories" $NFILE4 >/dev/null
      Yresult=$?
      if [ $Yresult -eq 0 ]; then
-          #               echo $(date "%x-%X") AutoSky2 MATCHED - NO W, W or As so CALL AutoSky3
+          #               echo $(date "+%x-%X") AutoSky2 MATCHED - NO W, W or As so CALL AutoSky3
           # FIRST PARAM = 0 TRUE ALL CLEAR
           ./AutoSky3 0
           exit $?
      else
-          #               echo $(date "%x-%X") AutoSky2 NO MATCH - WE HAVE A CHANGE IN THE WEATHER so CALL AutoSky4
+          #               echo $(date "+%x-%X") AutoSky2 NO MATCH - WE HAVE A CHANGE IN THE WEATHER so CALL AutoSky4
           ./AutoSky4
           exit $?
      fi

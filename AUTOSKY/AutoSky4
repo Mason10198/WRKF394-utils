@@ -417,7 +417,7 @@ if [[ $FOUNDONE -eq 0 ]]; then
 
       # IN THE WHOLE FILE DIDN'T FIND A MATCH
       # SO PLAY ERROR TONE
-      echo $(date "%x-%X") "Playing error tone!"
+      echo $(date "+%x-%X") "Playing error tone!"
       /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" >/dev/null 2>&1
 else
       if cmp -s "$WXT/$NFILE4" "$WXT/$OLDNFILE"; then # If alert is the same as the last alert
