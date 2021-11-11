@@ -6,7 +6,8 @@
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
 CWD="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-source $CWD/autoskywarn.conf
+echo "CWD= " $CWD
+source autoskywarn.conf
 
 #
 WX=${BASEDIR}
