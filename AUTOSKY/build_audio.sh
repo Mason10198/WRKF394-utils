@@ -13,7 +13,7 @@ build_audio () {
 
     clear="The national weather service has no current alerts, watches, or warnings for "
     alert="Updated weather information for "
-    alert="Severe weather alert for "
+    severe="Severe weather alert for "
 
     clearurl=$( printf "%s\n" "$url$clear$county_name" | sed 's/ /%20/g' )
     alerturl=$( printf "%s\n" "$url$alert$county_name" | sed 's/ /%20/g' )
