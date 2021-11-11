@@ -1,10 +1,12 @@
 #!/bin/bash
 
-. /home/repeater/WRKF394-utils/params.conf
+BASEDIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+. $BASEDIR/params.conf
 
 build_audio () {
     echo "Setting exec permissions..."
-    sudo chmod -R +x /home/repeater/WRKF394-utils/
+    sudo chmod -R +x $BASEDIR
 
     echo "Building audio files..."
     url="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="
@@ -18,12 +20,12 @@ build_audio () {
     wget -U Mozilla -O "/tmp/clear.wav" $clearurl
     wget -U Mozilla -O "/tmp/alert.wav" $alerturl
 
-    cp $base_dir/AUTOSKY/SOUNDS/asn96Z.wav $base_dir/AUTOSKY/SOUNDS/asn96Z.wav.old
-    cp $base_dir/AUTOSKY/SOUNDS/asn97.wav $base_dir/AUTOSKY/SOUNDS/asn97.wav.old
+    cp $BASEDIR/SOUNDS/asn96Z.wav $BASEDIR/SOUNDS/asn96Z.wav.old
+    cp $BASEDIR/SOUNDS/asn97.wav $BASEDIR/SOUNDS/asn97.wav.old
 
     echo "Compiling audio files..."
-    sox $base_dir/AUTOSKY/SOUNDS/asn96Z-tweet.wav /tmp/clear.wav $base_dir/AUTOSKY/SOUNDS/asn96Z.wav
-    sox $base_dir/AUTOSKY/SOUNDS/asn97-tweet.wav /tmp/alert.wav $base_dir/AUTOSKY/SOUNDS/asn97.wav
+    sox $BASEDIR/SOUNDS/asn96Z-tweet.wav /tmp/clear.wav $BASEDIR/SOUNDS/asn96Z.wav
+    sox $BASEDIR/SOUNDS/asn97-tweet.wav /tmp/alert.wav $BASEDIR/SOUNDS/asn97.wav
 
     echo -e "\nDone. Hopefully nothing explodes :)"
 }

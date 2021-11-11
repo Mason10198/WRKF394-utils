@@ -4,7 +4,7 @@
 # echo This is AutoSky2 - Author Steve Mahler - KF5VH - GO BOILERS!!
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
-source /home/repeater/WRKF394-utils/AUTOSKY/autoskywarn.conf
+source $BASEDIR/autoskywarn.conf
 
 #
 WX=${BASEDIR}
