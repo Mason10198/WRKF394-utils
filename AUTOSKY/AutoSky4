@@ -421,7 +421,7 @@ if [[ $FOUNDONE -eq 0 ]]; then
       /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A3FILE" >/dev/null 2>&1
 else
       if cmp -s "$WXT/$NFILE4" "$WXT/$OLDNFILE"; then # If alert is the same as the last alert
-            echo $(date "%x-%X") "I think this is the same announcement I said earlier, so I'm going to skip it."
+            echo $(date "+%x-%X") "I think this is the same announcement I said earlier, so I'm going to skip it."
       else
             # IF ENABLED
             # NOW SAY SOMETHING ABOUT THE NEW LEVEL OF WARNINGS
@@ -432,10 +432,10 @@ else
             fi
             if [ -e $ENABLEINFORMF ]; then
                   if (( $TORNADO == 1 )); then # If a tornado Warning was found
-                        echo $(date "%x-%X") 'Playing TORNADO WARNING message...'
+                        echo $(date "+%x-%X") 'Playing TORNADO WARNING message...'
                         /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A4FILE" >/dev/null 2>&1
                   else # If Tornado Warning NOT found
-                        echo $(date "%x-%X") 'Playing updated info message...'
+                        echo $(date "+%x-%X") 'Playing updated info message...'
                         /usr/sbin/asterisk -rvx "rpt localplay $NODE $WXA/$A2FILE" >/dev/null 2>&1
                   fi
             fi
