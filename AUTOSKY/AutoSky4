@@ -6,7 +6,6 @@
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
 CWD="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-echo "CWD= " $CWD
 source autoskywarn.conf
 
 #
@@ -466,5 +465,4 @@ if [ -e $ENABLERPTCTL ]; then
       $RPTCTL1 $BOVWARN $BOVWATC $BOVADVS $BOVSPCL $MOREFLAG $RUNTOT
 fi
 
-echo "AutoSky4 done."
 exit 0

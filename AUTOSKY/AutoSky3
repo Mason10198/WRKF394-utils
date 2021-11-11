@@ -5,7 +5,6 @@
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
 CWD="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-echo "CWD= " $CWD
 source autoskywarn.conf
 
 # INTERFACE WITH  MID-JB-PRI  TO DUMP SKYWARN REPEATER ID
@@ -104,7 +103,5 @@ if [ -e $ENABLERPTCTL ]; then
 fi
 
 $RM -f $WXT/$OLDNFILE
-
-echo "AutoSky3 done."
 
 exit 0

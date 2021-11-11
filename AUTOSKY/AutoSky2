@@ -5,7 +5,6 @@
 #
 # SOURCE THIS FILE TO OBTAIN VARIABLE SETTINGS
 CWD="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-echo "CWD= " $CWD
 source autoskywarn.conf
 
 #
@@ -104,7 +103,6 @@ case $Xresult in
      #           echo  SO CALL AutoSky3
      # FIRST PARAM = 1 PSEUDO CLEAR VIA BLOCKING
      ./AutoSky3 1
-     echo "AutoSky2 done."
      exit $?
      ;;
 *)
@@ -116,17 +114,13 @@ case $Xresult in
           #               echo AutoSky2 MATCHED - NO W, W or As so CALL AutoSky3
           # FIRST PARAM = 0 TRUE ALL CLEAR
           ./AutoSky3 0
-          echo "AutoSky2 done."
           exit $?
      else
           #               echo AutoSky2 NO MATCH - WE HAVE A CHANGE IN THE WEATHER so CALL AutoSky4
           ./AutoSky4
-          echo "AutoSky2 done."
           exit $?
      fi
      ;;
 esac
-
-echo "AutoSky2 done."
 
 exit -94
