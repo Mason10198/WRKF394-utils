@@ -32,7 +32,7 @@ build_audio () {
     sox $BASEDIR/SOUNDS/asn97-tweet.wav /tmp/alert.wav $BASEDIR/SOUNDS/asn97.wav
     sox $BASEDIR/SOUNDS/asn97S-tweet.wav /tmp/severe.wav $BASEDIR/SOUNDS/asn97S.wav
 
-    echo -e "\nDone. Hopefully nothing explodes :)"
+    echo "Done. Hopefully nothing explodes :)"
 }
 
 while true; do
