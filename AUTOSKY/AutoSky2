@@ -39,9 +39,9 @@ cd $WX
 #
 # SHUFFLE DATA TO NEW FILE SO WE CAN PUT IT BACK
 # AFTER PROCESSING, SAVING THE REST OF THE CODE.
-$RM -f $NFILE2D
-$CP -f $NFILE2 $NFILE2D
-$RM -f $NFILE2
+$RM -f $NFILE2D > /dev/null 2>&1
+$CP -f $NFILE2 $NFILE2D > /dev/null 2>&1
+$RM -f $NFILE2 > /dev/null 2>&1
 
 # IF THE WD TABLE IS EMPTY [WD[0] IS CONSTANT]
 #  SKIP and ADJUST
@@ -70,7 +70,7 @@ if [ ${WDN} -ne 1 ]; then
 else
 
      # STILL HAVE TO GET THE DATA BACK IN NFILE2
-     $CP -f $NFILE2D $NFILE2
+     $CP -f $NFILE2D $NFILE2 > /dev/null 2>&1
 
 fi
 
@@ -78,9 +78,9 @@ fi
 
 # MAKE SURE THE NEXT STEP FILES ARE CLEAR then
 # STRIP THE FIRST LINE WHICH LEAVES A, W and W
-$RM -f $NFILE3 $NFILE4
+$RM -f $NFILE3 $NFILE4 > /dev/null 2>&1
 $SED "1d" $NFILE2 >$NFILE3
-$CP -f $NFILE3 $NFILE4
+$CP -f $NFILE3 $NFILE4 > /dev/null 2>&1
 
 # NOW GET RID OF THE MARKERS
 set -o noglob

@@ -166,15 +166,15 @@ WA[54]="54"
 # ADD DATE WHEN THE DATA GOES TO DOT 1
 # COPY CURRENT MESSAGE TO SAVE MESSAGE FILE
 #    THIS BECOMES THE "Existing" Weather Conditions
-$CP -f ${FILESAVE}.2 ${FILESAVE}.3
-$CP -f ${FILESAVE}.1 ${FILESAVE}.2
-$CP -f ${FILESAVE} ${FILESAVE}.1
+$CP -f ${FILESAVE}.2 ${FILESAVE}.3 > /dev/null 2>&1
+$CP -f ${FILESAVE}.1 ${FILESAVE}.2 > /dev/null 2>&1
+$CP -f ${FILESAVE} ${FILESAVE}.1 > /dev/null 2>&1
 echo "$(date)" >>${FILESAVE}.1
-$CP -f $NFILE2D $FILESAVE
+$CP -f $NFILE2D $FILESAVE > /dev/null 2>&1
 /bin/sync
 
 # CLEAR THE BOBTAIL WORKING FILES
-$RM -f $BOBWARN $BOBWATC $BOBADVS $BOBSPCL $BOKWARN $BOKWATC $BOKADVS $BOKSPCL
+$RM -f $BOBWARN $BOBWATC $BOBADVS $BOBSPCL $BOKWARN $BOKWATC $BOKADVS $BOKSPCL > /dev/null 2>&1
 
 # ONLY PROCESS LINES WITH SPECIFIC KEY WORDS
 #   ALL WARNINGS BEFORE WATCHES BEFORE ...
@@ -286,12 +286,12 @@ fi
 # FOLLOWED BY A WORD-SPACE
 # ELSE PATCH IN A WORD-SPACE to the WX TAIL MESSAGE
 if [ -e ${WXA}/${COUNTYLT} ]; then
-      $CP -f $WXA/$COUNTYLT $WXT/$TAILMSG
-      $RM -f $WXT/$TFILEW #Make available for output
+      $CP -f $WXA/$COUNTYLT $WXT/$TAILMSG > /dev/null 2>&1
+      $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
       $CATWAV $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
-      $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+      $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
 else
-      $CP -f $WXA/$VWORDSP $WXT/$TAILMSG
+      $CP -f $WXA/$VWORDSP $WXT/$TAILMSG > /dev/null 2>&1
 fi
 
 # MARK AS NOTHING FOUND IN FILE NFILE5
@@ -335,32 +335,32 @@ while IFS= read -r line; do
                   if [[ $MATCH -eq 0 ]]; then
 
                         #                    # BUILD TAILMSG - NOW ADD A "AUDIO TIC" TO THE TAILMSG
-                        $RM -f $WXT/$TFILEW #Make available for output
+                        $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
                         $CATWAV $WXT/$TAILMSG $WXA/${BUILD1}${AUDIOTIC}${BUILD3} $WXT/$TFILEW
-                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
 
                         #                    # BUILD TAILMSG - NOW ADDING THE NEW ALERT TO THE TAILMSG
-                        $RM -f $WXT/$TFILEW #Make available for output
+                        $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
                         $CATWAV $WXT/$TAILMSG $WXA/${BUILD1}${ANNN}${BUILD3} $WXT/$TFILEW
-                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
 
                         #                    # BUILD TAILMSG - NOW ADD A "WORDSPACE" TO THE TAILMSG
-                        $RM -f $WXT/$TFILEW #Make available for output
+                        $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
                         $CATWAV $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
-                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
                   fi
 
                   if [[ $MATCH -eq 1 ]]; then
 
                         #                    # BUILD TAILMSG - ADD MULTIPLE MESSAGE
-                        $RM -f $WXT/$TFILEW #Make available for output
+                        $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
                         $CATWAV $WXT/$TAILMSG $WXA/${BUILD1}${MULTIANN}${BUILD3} $WXT/$TFILEW
-                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
 
                         #                    # BUILD TAILMSG - NOW ADD A "WORDSPACE" TO THE TAILMSG
-                        $RM -f $WXT/$TFILEW #Make available for output
+                        $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
                         $CATWAV $WXT/$TAILMSG $WXA/$VWORDSP $WXT/$TFILEW
-                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+                        $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
                   fi
 
                   if [[ $MATCH -ge 2 ]]; then
@@ -387,16 +387,16 @@ done <"$NFILE5"
 # IFF COUNTYFT EXISTS (THINK COUNTY *F*OLLOWS *T*AILMSG)
 # PATCH IN "for countyname county"  OR ANY OTHER SOUND
 if [ -e ${WXA}/${COUNTYFT} ]; then
-      $RM -f $WXT/$TFILEW #Make available for output
+      $RM -f $WXT/$TFILEW > /dev/null 2>&1 #Make available for output
       $CATWAV $WXT/$TAILMSG $WXA/$COUNTYFT $WXT/$TFILEW
-      $CP -f $WXT/$TFILEW $WXT/$TAILMSG
+      $CP -f $WXT/$TFILEW $WXT/$TAILMSG > /dev/null 2>&1
 fi
 
 # Temporarily move the real tailmessage to /tmp/ and
 # replace it with an empty one to keep Asterisk from
 # playing a duplicate alert - N5LSN
-$MV $WXT/$TAILMSG /tmp/$TAILMSG
-$CP -f $WXA/$VWORDSP $WXT/$TAILMSG
+$MV $WXT/$TAILMSG /tmp/$TAILMSG > /dev/null 2>&1
+$CP -f $WXA/$VWORDSP $WXT/$TAILMSG > /dev/null 2>&1
 
 /bin/sync
 
@@ -447,12 +447,12 @@ else
                   echo $(date "+%x-%X") 'Playing tail-message...'
                   /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/$TAILMSGBASE" >/dev/null 2>&1 # Play the tailmessage we temporarily moved
             fi
-            $CP -f $NFILE5 $WXT/$OLDNFILE
+            $CP -f $NFILE5 $WXT/$OLDNFILE > /dev/null 2>&1
             # Wait to be sure Asterisk has played our alert, then
             # move the tailmessage back where it goes - N5LSN
             echo $(date "+%x-%X") 'Waiting 30 seconds for Asterisk to finish up...'
             sleep 30
-            $MV /tmp/$TAILMSG $WXT/$TAILMSG
+            $MV /tmp/$TAILMSG $WXT/$TAILMSG > /dev/null 2>&1
       fi
 fi
 

@@ -28,10 +28,10 @@ fi
 /usr/bin/wget --no-check-certificate alerts.weather.gov/cap/$OFILE 2>/dev/null
 
 # COPY THE WEIRD NAMED FILE TO SOMETHING NORMAL
-$CP -f $OFILE $NFILE1
+$CP -f $OFILE $NFILE1 > /dev/null 2>&1
 
 # REMOVE the WEIRDLY NAMED FILE
-$RM -f $OFILE
+$RM -f $OFILE > /dev/null 2>&1
 
 # FOR TESTING CHANGE VALUE OF TCONTROL TO THE TEST NUMBER TO RUN
 #   SET TCONTROL TO "0" (zero) FOR PRODUCTION MODE
@@ -51,47 +51,47 @@ case $TCONTROL in
 1)
    # Tornado Watch / Tornado Warning
    echo $(date "+%x-%X") "Running Test #1: Tornado Watch / Tornado Warning..."
-   $CP -f test.file1 $NFILE1
+   $CP -f test.file1 $NFILE1 > /dev/null 2>&1
    ;;
 2)
    # Tornado Watch / Winter WX Adv / Tornado Watch / Red Flag Warning
    echo $(date "+%x-%X") "Running Test #2: Tornado Watch / Winter WX Adv / Tornado Watch / Red Flag Warning..."
-   $CP -f test.file2 $NFILE1
+   $CP -f test.file2 $NFILE1 > /dev/null 2>&1
    ;;
 3)
    # Tornado Warning / Frost Adv / Tornado Warning
    echo $(date "+%x-%X") "Running Test #3: Tornado Warning / Frost Adv / Tornado Warning..."
-   $CP -f test.file3 $NFILE1
+   $CP -f test.file3 $NFILE1 > /dev/null 2>&1
    ;;
 4)
    # Frost Adv / Tornado Warning / Frost Adv / Spcl Wx / Tornado Watch / Frost Adv
    echo $(date "+%x-%X") "Running Test #4: Frost Adv / Tornado Warning / Frost Adv / Spcl Wx / Tornado Watch / Frost Adv..."
-   $CP -f test.file4 $NFILE1
+   $CP -f test.file4 $NFILE1 > /dev/null 2>&1
    ;;
 5)
    # Small Craft Adv / Frost Adv / Tornado Warning / Special WX * 5 / Hurricane Warning
    echo $(date "+%x-%X") "Running Test #5: Small Craft Adv / Frost Adv / Tornado Warning / Special WX * 5 / Hurricane Warning..."
-   $CP -f test.file5 $NFILE1
+   $CP -f test.file5 $NFILE1 > /dev/null 2>&1
    ;;
 6)
    # Flood Warning * 2
    echo $(date "+%x-%X") "Running Test #6: Flood Warning * 2..."
-   $CP -f test.file6 $NFILE1
+   $CP -f test.file6 $NFILE1 > /dev/null 2>&1
    ;;
 7)
    # Excessive Heat Warning / Tropical Storm Watch / Wind Chill Adv * 2
    echo $(date "+%x-%X") "Running Test #7: Excessive Heat Warning / Tropical Storm Watch / Wind Chill Adv * 2..."
-   $CP -f test.file7 $NFILE1
+   $CP -f test.file7 $NFILE1 > /dev/null 2>&1
    ;;
 8)
    # [Say every warning, long!, no order, can interfer with tail message playing!]
    echo $(date "+%x-%X") "Running Test #8: Say every warning, long, no order..."
-   $CP -f test.file8 $NFILE1
+   $CP -f test.file8 $NFILE1 > /dev/null 2>&1
    ;;
 9)
    # Single Special Weather
    echo $(date "+%x-%X") "Running Test #9: Single Special Weather..."
-   $CP -f test.file9 $NFILE1
+   $CP -f test.file9 $NFILE1 > /dev/null 2>&1
    ;;
 *)
    # error - ring the error bell
@@ -113,35 +113,5 @@ else
    echo $(date "+%x-%X") "New data found..."
    ./AutoSky2
 fi
-
-# old shit that sucks
-######################################################################################################
-# $DIFF $NFILE2 $FILESAVE >/dev/null 2>/dev/null
-# Xresult="$?"
-
-# # echo $(date "+%x-%X") AutoSky1 Xresult is $Xresult
-
-# case $Xresult in
-# 0)
-#    #           echo $(date "+%x-%X") MATCH - NOTHING TO DO
-#    echo $(date "+%x-%X") "Data is the same, nothing to do..."
-#    exit 0
-#    ;;
-# 1)
-#    #     	    echo $(date "+%x-%X") CURRENT VS LAST MISMATCH - CHANGE ANNOUNCEMENT so CALL AutoSky2
-#    echo $(date "+%x-%X") "New data found..."
-#    ./AutoSky2
-#    exit $?
-#    ;;
-# 2)
-#    echo $(date "+%x-%X") "DIFF COMMAND FAILED. Xresult was 2."
-#    echo $(date "+%x-%X") "FIGURE OUT WHAT TO DO"
-#    exit -92
-#    ;;
-# *)
-#    echo $(date "+%x-%X") "BIG FAIL. Xresult was NOT 0, 1 or 2."
-#    exit -93
-#    ;;
-# esac
 
 exit -94

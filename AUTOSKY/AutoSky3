@@ -31,11 +31,11 @@ cd $WX
 # ADD DATE WHEN THE DATA GOES TO DOT 1
 # COPY CURRENT MESSAGE TO SAVE MESSAGE FILE
 #    THIS BECOMES THE "Existing" Weather Conditions
-$CP -f ${FILESAVE}.2 ${FILESAVE}.3
-$CP -f ${FILESAVE}.1 ${FILESAVE}.2
-$CP -f ${FILESAVE} ${FILESAVE}.1
+$CP -f ${FILESAVE}.2 ${FILESAVE}.3 > /dev/null 2>&1
+$CP -f ${FILESAVE}.1 ${FILESAVE}.2 > /dev/null 2>&1
+$CP -f ${FILESAVE} ${FILESAVE}.1 > /dev/null 2>&1
 echo "$(date)" >>${FILESAVE}.1
-$CP -f $NFILE2D $FILESAVE
+$CP -f $NFILE2D $FILESAVE > /dev/null 2>&1
 /bin/sync
 
 # CHANGE THE ID BEFORE MAKING THE CALLS TO SPEAK THE ALL CLEAR MESSAGE
@@ -55,11 +55,11 @@ fi
 # BUT IF COUNTYFE EXISTS MAKE WX TAIL WITH "audio" ADDED AT END
 if [ -e $ENABLEINFORME ]; then
 
-     $RM -f $WXT/$TFILEW $WXT/$TFILEX #Make available for output
+     $RM -f $WXT/$TFILEW $WXT/$TFILEX > /dev/null 2>&1 #Make available for output
      if [ -e $WXA/$COUNTYLE ]; then
           $CATWAV $WXA/$COUNTYLE $WXA/${A1FILE}.wav $WXT/$TFILEW
      else
-          $CP -f $WXA/${A1FILE}.wav $WXT/$TFILEW
+          $CP -f $WXA/${A1FILE}.wav $WXT/$TFILEW > /dev/null 2>&1
      fi
 
      # At this point TFILEW has potentially COUNTYLE and always A1FILE
@@ -67,7 +67,7 @@ if [ -e $ENABLEINFORME ]; then
      if [ -e $WXA/$COUNTYFE ]; then
           $CATWAV $WXT/$TFILEW $WXA/$COUNTYFE $WXT/$TFILEX
      else
-          $CP -f $WXT/$TFILEW $WXT/$TFILEX
+          $CP -f $WXT/$TFILEW $WXT/$TFILEX > /dev/null 2>&1
      fi
 
      # At this point TFILEX has
@@ -91,8 +91,8 @@ fi
 # COPY WORD-SPACE AUDIO TO THE WX TAIL MESSAGE
 #    THE WORD-SPACE WAV IS ASN99
 #    THIS "CLEARS" THE WX-TAIL MESSAGE
-$RM -f $WXT/$TAILMSG
-$CP -f $WXA/$VWORDSP $WXT/$TAILMSG
+$RM -f $WXT/$TAILMSG > /dev/null 2>&1
+$CP -f $WXA/$VWORDSP $WXT/$TAILMSG > /dev/null 2>&1
 /bin/sync
 
 # IF ENABLED, CALL THE REPEATER CONTROL SCRIPT
@@ -101,6 +101,6 @@ if [ -e $ENABLERPTCTL ]; then
      $RPTCTL0 $BYBLK
 fi
 
-$RM -f $WXT/$OLDNFILE
+$RM -f $WXT/$OLDNFILE > /dev/null 2>&1
 
 exit 0
