@@ -90,8 +90,9 @@ NFILE='/tmp/saysum.txt3'
 /bin/sed -i -e 's/ winds/ wends/g' $TFILE
 /bin/sed -i -e 's/ Winds/ wends/g' $TFILE
 /bin/sed -i -e 's/<summary>//g' $TFILE
-/bin/sed -i -e 's/</summary>//g' $TFILE
+/bin/sed -i -e 's/<\/summary>//g' $TFILE
 /bin/sed -i -e 's/\*//g' $TFILE
+/bin/sed -i -e 's/\///g' $TFILE
 
 /bin/sed -i ':a;N;$!ba;s/\n/ /g' $TFILE
 
@@ -106,7 +107,7 @@ cp -f $TFILE $NFILE
 msg=$(cat $NFILE)
 msgurl=$( printf "%s\n" "$url$msg" | sed 's/ /%20/g' )
 wget -q -U Mozilla -O "/tmp/saysummsg.wav" $msgurl
-sox -V /tmp/saysummsg.wav -r 8000 -c 1 -t ul /tmp/saysummsg.ulaw
+sox -V /tmp/saysummsg.wav -r 8000 -c 1 -t ul /tmp/saysummsg.ulaw &> /dev/null
 rm /tmp/saysummsg.wav
 sync
-/usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysummsg" 
+/usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysummsg" &> /dev/null
