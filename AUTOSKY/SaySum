@@ -64,11 +64,11 @@ NFILE='/tmp/saysum.txt3'
 /bin/cp -f $OFILE $TFILE ;
 
 # ESTABLISH BREAKS BETWEEN SEGMENTS
-/bin/sed -i 's%</summary>% , BREAK , %' $TFILE
-/bin/sed -i 's%<summary>%%' $TFILE
+#/bin/sed -i 's%</summary>% , BREAK , %' $TFILE
+#/bin/sed -i 's%<summary>%%' $TFILE
 
 # REMOVE COUNTY CODE
-/bin/sed -i 's/(LAC055)//' $TFILE;
+#/bin/sed -i 's/(LAC055)//' $TFILE;
 
 # CHANGE NWS to N-W-S
 # /bin/sed -i 's/National Weather Service/ N-W-S /' $WX/$TFILE;
@@ -81,18 +81,28 @@ NFILE='/tmp/saysum.txt3'
 /bin/sed -i 's/\.\.\./ , /g' $TFILE;
 
 # CHANGE "C[SD]T" to "C-[SD]-T"
-/bin/sed -i 's/CDT/C-D-T/g;s/CST/C-S-T/g' $TFILE;
+/bin/sed -i -e 's/ CDT / Central Daylight Time /g' $TFILE
+/bin/sed -i -e 's/ CST / Central Standard Time /g' $TFILE
 
 # CHANGE " mph" to " miles per hour"
 /bin/sed -i 's/\ mph/\ miles per hour/g' $TFILE;
 
+/bin/sed -i -e 's/ winds/ wends/g' $TFILE
+
+/bin/sed -i ':a;N;$!ba;s/\n/ /g' $TFILE
+
 #GET RID OF SED TMP FILES
 /bin/rm -f sed*
+
+txt="The following message contains detailed weather alert data for "$county_name". "
+sed -i "1s/^/$txt/" $TFILE
 
 cp -f $TFILE $NFILE
 #/usr/bin/text2wave -F 8000 -otype ulaw $NFILE -o /tmp/saysum.ulaw
 msg=$(cat $NFILE)
 msgurl=$( printf "%s\n" "$url$msg" | sed 's/ /%20/g' )
 wget -q -U Mozilla -O "/tmp/saysummsg.wav" $msgurl
+sox -V /tmp/saysummsg.wav -r 8000 -c 1 -t ul saysummsg.ulaw
+rm /tmp/saysummsg.wav
 sync
 /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysummsg" 
