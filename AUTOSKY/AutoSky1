@@ -107,32 +107,41 @@ $EGREP "title" <$NFILE1 >$NFILE2
 #
 # DOES NEW NWS FILE = OLD SAVE FILE
 #     NFILE2 suffled to NFILE2D in A*2. OK SAVE NFILE2D to FILESAVE in A*[34]
-$DIFF $NFILE2 $FILESAVE >/dev/null 2>/dev/null
-Xresult="$?"
-
-# echo $(date "+%x-%X") AutoSky1 Xresult is $Xresult
-
-case $Xresult in
-0)
-   #           echo $(date "+%x-%X") MATCH - NOTHING TO DO
+if cmp -s "$NFILE2" "$FILESAVE"; then
    echo $(date "+%x-%X") "Data is the same, nothing to do..."
-   exit 0
-   ;;
-1)
-   #     	    echo $(date "+%x-%X") CURRENT VS LAST MISMATCH - CHANGE ANNOUNCEMENT so CALL AutoSky2
+else
    echo $(date "+%x-%X") "New data found..."
    ./AutoSky2
-   exit $?
-   ;;
-2)
-   echo $(date "+%x-%X") "DIFF COMMAND FAILED. Xresult was 2."
-   echo $(date "+%x-%X") "FIGURE OUT WHAT TO DO"
-   exit -92
-   ;;
-*)
-   echo $(date "+%x-%X") "BIG FAIL. Xresult was NOT 0, 1 or 2."
-   exit -93
-   ;;
-esac
+fi
+
+# old shit that sucks
+######################################################################################################
+# $DIFF $NFILE2 $FILESAVE >/dev/null 2>/dev/null
+# Xresult="$?"
+
+# # echo $(date "+%x-%X") AutoSky1 Xresult is $Xresult
+
+# case $Xresult in
+# 0)
+#    #           echo $(date "+%x-%X") MATCH - NOTHING TO DO
+#    echo $(date "+%x-%X") "Data is the same, nothing to do..."
+#    exit 0
+#    ;;
+# 1)
+#    #     	    echo $(date "+%x-%X") CURRENT VS LAST MISMATCH - CHANGE ANNOUNCEMENT so CALL AutoSky2
+#    echo $(date "+%x-%X") "New data found..."
+#    ./AutoSky2
+#    exit $?
+#    ;;
+# 2)
+#    echo $(date "+%x-%X") "DIFF COMMAND FAILED. Xresult was 2."
+#    echo $(date "+%x-%X") "FIGURE OUT WHAT TO DO"
+#    exit -92
+#    ;;
+# *)
+#    echo $(date "+%x-%X") "BIG FAIL. Xresult was NOT 0, 1 or 2."
+#    exit -93
+#    ;;
+# esac
 
 exit -94
