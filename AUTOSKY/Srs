@@ -10,7 +10,7 @@ location="USLA0261"	#code for you location
 nlocation="Lafayette"
 WORK=/usr/local/AUTOSKY
 TEXT=$WORK/srs.txt
-TALKIT=$WORK/TALKIT/Talkit
+TALKIT=$WORK/Talkit
 
 cd $WORK
 

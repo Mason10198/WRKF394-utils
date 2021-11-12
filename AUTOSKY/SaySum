@@ -5,11 +5,10 @@
 
 # NODE=42315
 # get the node number
-source /usr/local/KF5VH/N1NODE
+source autoskywarn.conf
 
-WX=/usr/local/AUTOSKY
-OFILE='wwaatmget.php?x=LAC055&y=0'
-NFILE='saysum.txt1'
+WX=$BASEDIR
+NFILE='/tmp/saysum.txt1'
 #
 cd $WX ;
 #
@@ -23,9 +22,9 @@ cd $WX ;
 /bin/rm -f $OFILE
 #
 #
-OFILE='saysum.txt1'
-TFILE='saysum.txtt'
-NFILE='saysum.txt2'
+OFILE='/tmp/saysum.txt1'
+TFILE='/tmp/saysum.txtt'
+NFILE='/tmp/saysum.txt2'
 #
 #
 # REMOVE THE NEW FILE NAME and TEMP FILE NAME
@@ -45,50 +44,49 @@ RESULT=`/bin/cat saysum.wc`
 # echo $RESULT
 #
 if [ $RESULT -eq 0 ] ; then
-     echo "There are no weather alerts at this time." > saysum.bo
-     /usr/bin/text2wave -F 8000 -otype ulaw $WX/saysum.bo -o $WX/saysum.ulaw
+     echo "There are no weather alerts at this time." > /tmp/saysum.bo
+     /usr/bin/text2wave -F 8000 -otype ulaw /tmp/saysum.bo -o /tmp/saysum.ulaw
      sync
-     /usr/sbin/asterisk -rvx "rpt localplay $NODE $WX/saysum" 
+     /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysum" 
      sync
      exit 0
 fi
 #
 #
-OFILE='saysum.txt2'
-TFILE='saysum.txtt'
-NFILE='saysum.txt3'
+OFILE='/tmp/saysum.txt2'
+TFILE='/tmp/saysum.txtt'
+NFILE='/tmp/saysum.txt3'
 #
-/bin/rm -f $WX/$NFILE $WX/$TFILE ;
-/bin/cp -f $WX/$OFILE $WX/$TFILE ;
+/bin/rm -f $NFILE $TFILE ;
+/bin/cp -f $OFILE $TFILE ;
 
 # ESTABLISH BREAKS BETWEEN SEGMENTS
-/bin/sed -i 's%</summary>% , BREAK , %' $WX/$TFILE
-/bin/sed -i 's%<summary>%%' $WX/$TFILE
+/bin/sed -i 's%</summary>% , BREAK , %' $TFILE
+/bin/sed -i 's%<summary>%%' $TFILE
 
 # REMOVE COUNTY CODE
-/bin/sed -i 's/(LAC055)//' $WX/$TFILE;
+/bin/sed -i 's/(LAC055)//' $TFILE;
 
 # CHANGE NWS to N-W-S
 # /bin/sed -i 's/National Weather Service/ N-W-S /' $WX/$TFILE;
-/bin/sed -i 's/ by NWS/ /' $WX/$TFILE;
+/bin/sed -i 's/ by NWS/ /' $TFILE;
 
 # CHANGE TRAILING ", BREAK ," to ", END OF MESSAGE "
-/bin/sed -i '$s% , BREAK ,%. , END OF REPORT%' $WX/$TFILE
+/bin/sed -i '$s% , BREAK ,%. , END OF REPORT%' $TFILE
 
 # CHANGE "..." to " , "
-/bin/sed -i 's/\.\.\./ , /g' $WX/$TFILE;
+/bin/sed -i 's/\.\.\./ , /g' $TFILE;
 
 # CHANGE "C[SD]T" to "C-[SD]-T"
-/bin/sed -i 's/CDT/C-D-T/g;s/CST/C-S-T/g' $WX/$TFILE;
+/bin/sed -i 's/CDT/C-D-T/g;s/CST/C-S-T/g' $TFILE;
 
 # CHANGE " mph" to " miles per hour"
-/bin/sed -i 's/\ mph/\ miles per hour/g' $WX/$TFILE;
+/bin/sed -i 's/\ mph/\ miles per hour/g' $TFILE;
 
 #GET RID OF SED TMP FILES
 /bin/rm -f sed*
 
-cp -f $WX/$TFILE $WX/$NFILE
-/usr/bin/text2wave -F 8000 -otype ulaw $WX/$NFILE -o $WX/saysum.ulaw
+cp -f $TFILE $NFILE
+/usr/bin/text2wave -F 8000 -otype ulaw $NFILE -o /tmp/saysum.ulaw
 sync
-/usr/sbin/asterisk -rvx "rpt localplay $NODE $WX/saysum" 
-
+/usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysum" 
