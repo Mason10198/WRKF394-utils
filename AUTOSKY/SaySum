@@ -93,6 +93,6 @@ cp -f $TFILE $NFILE
 #/usr/bin/text2wave -F 8000 -otype ulaw $NFILE -o /tmp/saysum.ulaw
 msg=$(cat $NFILE)
 msgurl=$( printf "%s\n" "$url$msg" | sed 's/ /%20/g' )
-wget -q -U Mozilla -O "/tmp/saysum.wav" $msgurl
+wget -q -U Mozilla -O "/tmp/saysummsg.wav" $msgurl
 sync
 /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysummsg" 
