@@ -101,6 +101,6 @@ if [ -e $ENABLERPTCTL ]; then
      $RPTCTL0 $BYBLK
 fi
 
-$RM -f $WXT/$OLDNFILE > /dev/null 2>&1
+$RM -f $OLDNFILE > /dev/null 2>&1
 
 exit 0
