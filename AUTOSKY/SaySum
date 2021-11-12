@@ -88,6 +88,10 @@ NFILE='/tmp/saysum.txt3'
 /bin/sed -i 's/\ mph/\ miles per hour/g' $TFILE;
 
 /bin/sed -i -e 's/ winds/ wends/g' $TFILE
+/bin/sed -i -e 's/ Winds/ wends/g' $TFILE
+/bin/sed -i -e 's/<summary>//g' $TFILE
+/bin/sed -i -e 's/</summary>//g' $TFILE
+/bin/sed -i -e 's/\*//g' $TFILE
 
 /bin/sed -i ':a;N;$!ba;s/\n/ /g' $TFILE
 
