@@ -9,6 +9,7 @@ source autoskywarn.conf
 
 WX=$BASEDIR
 NFILE='/tmp/saysum.txt1'
+url="https://api.voicerss.org/?key="$voicerss_key"&hl=en-us&src="
 #
 cd $WX ;
 #
@@ -46,7 +47,7 @@ RESULT=`/bin/cat /tmp/saysum.wc`
 if [ $RESULT -eq 0 ] ; then
      msg="There are no weather alerts at this time."
      # /usr/bin/text2wave -F 8000 -otype ulaw /tmp/saysum.bo -o /tmp/saysum.ulaw
-     msgurl=$( printf "%s\n" "$msg" | sed 's/ /%20/g' )
+     msgurl=$( printf "%s\n" "$url$msg" | sed 's/ /%20/g' )
      wget -q -U Mozilla -O "/tmp/saysum.wav" $msgurl
      sync
      /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysum" 
@@ -91,7 +92,7 @@ NFILE='/tmp/saysum.txt3'
 cp -f $TFILE $NFILE
 #/usr/bin/text2wave -F 8000 -otype ulaw $NFILE -o /tmp/saysum.ulaw
 msg=$(cat $NFILE)
-msgurl=$( printf "%s\n" "$msg" | sed 's/ /%20/g' )
+msgurl=$( printf "%s\n" "$url$msg" | sed 's/ /%20/g' )
 wget -q -U Mozilla -O "/tmp/saysum.wav" $msgurl
 sync
 /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysum" 
