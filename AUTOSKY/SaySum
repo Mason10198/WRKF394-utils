@@ -37,15 +37,17 @@ NFILE='/tmp/saysum.txt2'
 #   FROM THE TEMP FILE TO THE NEW FILE
 /bin/egrep "summary" < $TFILE > $NFILE
 #
-/usr/bin/wc -l < $NFILE > saysum.wc
-RESULT=`/bin/cat saysum.wc`
+/usr/bin/wc -l < $NFILE > /tmp/saysum.wc
+RESULT=`/bin/cat /tmp/saysum.wc`
 #
 # DIAG
 # echo $RESULT
 #
 if [ $RESULT -eq 0 ] ; then
-     echo "There are no weather alerts at this time." > /tmp/saysum.bo
-     /usr/bin/text2wave -F 8000 -otype ulaw /tmp/saysum.bo -o /tmp/saysum.ulaw
+     msg="There are no weather alerts at this time."
+     # /usr/bin/text2wave -F 8000 -otype ulaw /tmp/saysum.bo -o /tmp/saysum.ulaw
+     msgurl=$( printf "%s\n" "$msg" | sed 's/ /%20/g' )
+     wget -q -U Mozilla -O "/tmp/saysum.wav" $msgurl
      sync
      /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysum" 
      sync
@@ -87,6 +89,9 @@ NFILE='/tmp/saysum.txt3'
 /bin/rm -f sed*
 
 cp -f $TFILE $NFILE
-/usr/bin/text2wave -F 8000 -otype ulaw $NFILE -o /tmp/saysum.ulaw
+#/usr/bin/text2wave -F 8000 -otype ulaw $NFILE -o /tmp/saysum.ulaw
+msg=$(cat $NFILE)
+msgurl=$( printf "%s\n" "$msg" | sed 's/ /%20/g' )
+wget -q -U Mozilla -O "/tmp/saysum.wav" $msgurl
 sync
 /usr/sbin/asterisk -rvx "rpt localplay $NODE /tmp/saysum" 
